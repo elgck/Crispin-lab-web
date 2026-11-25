@@ -613,11 +613,15 @@ body { font-size: var(--fs-body); }
   background: var(--surface); border-radius: 14px; padding: 1.1rem 1.15rem 1.15rem;
   border: 1px solid var(--rule); border-top: 4px solid var(--brand);
   box-shadow: 0 24px 60px -18px rgba(28,28,30,.4);
-  transform: translateY(calc(100% + 2rem)); opacity: 0;
-  transition: transform .6s var(--ease-out), opacity .4s;
 }
-.vacancy.is-visible { transform: none; opacity: 1; }
+/* Slides in as soon as it is un-hidden: a CSS animation runs on display change,
+   so it does not depend on requestAnimationFrame or transitions firing. */
+.vacancy:not([hidden]) { animation: vacancy-in .6s var(--ease-out) both; }
+.vacancy.no-anim { animation: none; }
+.vacancy.is-leaving { animation: vacancy-out .4s ease-in both; }
 .vacancy[hidden] { display: none; }
+@keyframes vacancy-in  { from { transform: translateY(calc(100% + 2rem)); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes vacancy-out { from { transform: none; opacity: 1; } to { transform: translateY(calc(100% + 2rem)); opacity: 0; } }
 .vacancy-close {
   position: absolute; top: .45rem; right: .5rem; width: 2rem; height: 2rem; border: 0; border-radius: 50%;
   background: transparent; color: var(--ink-muted); font-size: 1.4rem; line-height: 1; cursor: pointer;
@@ -639,7 +643,7 @@ body { font-size: var(--fs-body); }
   .vacancy { width: 20rem; padding: .8rem .9rem; }
   .vacancy-meta { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .vacancy-dot { animation: none; } .modality { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .vacancy-dot, .vacancy:not([hidden]) { animation: none; } .modality { transition: none; } }
 @media (orientation: portrait) { .section--tinted .story-stage { background: var(--surface-2); } }
 
 /* Landscape hero: give the visual a little more room than the text */
@@ -940,7 +944,6 @@ html:not(.js) .ct-tag-cect, html:not(.js) .ct-scan { display: none; }
 .li-empty { text-align: center; padding: clamp(2rem, 1rem + 4vw, 5rem) 1rem; border: 1.5px dashed var(--rule); border-radius: 16px; display: grid; justify-items: center; gap: .75rem; }
 .li-empty h2 { font-size: var(--fs-h3); }
 .li-empty .lede { margin: 0 auto 1rem; }
-.vacancy.no-anim { transition: none; }
 /* University of Cambridge logo (only rendered when the official file is present) */
 .cam-logo { display: inline-block; margin-top: 2rem; opacity: .9; transition: opacity .2s; }
 .cam-logo:hover { opacity: 1; }
@@ -1063,3 +1066,29 @@ a.social-btn:hover { background: var(--accent); border-color: var(--accent); col
 /* Lab-life photos stay still (no parallax) so they can never drift onto their captions. */
 .who .life-photo img { transform: none; display: block; }
 .who .life-item { display: flex; flex-direction: column; }
+
+/* ── Hero: larger pathology / CT / genomics cards on wide screens ──
+   Wider visual column and bigger card stack, capped by screen height so it
+   still fits on shorter laptop screens. */
+@media (orientation: landscape) and (min-height: 600px) {
+  .hero-track .hero { grid-template-columns: minmax(0, .9fr) minmax(0, 1.3fr); }
+  .modality-stack { width: min(84%, calc((100svh - 19rem) * 1.5)); margin-top: 15%; }
+}
+
+/* ── Notice shown only when a browser extension rewrites paper links ── */
+.ext-notice {
+  position: fixed; z-index: 290; left: max(1rem, env(safe-area-inset-left)); bottom: max(1rem, env(safe-area-inset-bottom));
+  width: min(22rem, calc(100vw - 2rem)); padding: .9rem 2.4rem .9rem 1rem;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--rule); border-left: 4px solid var(--brand);
+  border-radius: 12px; box-shadow: 0 18px 40px -18px rgba(28,28,30,.45); font-size: .85rem; line-height: 1.45;
+  animation: vacancy-in .5s var(--ease-out) both;
+}
+.ext-notice[hidden] { display: none; }
+.ext-notice strong { display: block; margin-bottom: .2rem; font-size: .9rem; }
+.ext-notice button {
+  position: absolute; top: .45rem; right: .5rem; width: 1.8rem; height: 1.8rem; border: 0; border-radius: 50%;
+  background: transparent; color: var(--ink-muted); font-size: 1.2rem; line-height: 1; cursor: pointer;
+}
+.ext-notice button:hover { background: var(--surface-3); color: var(--ink); }
+@media (orientation: portrait) and (max-width: 600px) { .ext-notice { left: .6rem; right: .6rem; width: auto; bottom: auto; top: calc(var(--nav-h, 60px) + .6rem); } }
+@media (prefers-reduced-motion: reduce) { .ext-notice { animation: none; } }
