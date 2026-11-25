@@ -12,9 +12,11 @@
   <div class="hero-sticky">
     {{ partial "slide-bg.html" . }}
     <div class="container hero">
-      <div class="hero-text">
+      <div class="hero-head">
         <div class="hero-sup">{{ .Site.Params.labName }} · {{ .Site.Params.institute }} · {{ .Site.Params.institution }}</div>
         <h1 class="hero-title">{{ .Site.Params.labFullName }}</h1>
+      </div>
+      <div class="hero-text">
         <p class="hero-sub">{{ .Site.Params.tagline }}</p>
         <p class="hero-body">{{ .Site.Params.description }}</p>
         <div class="hero-actions">
