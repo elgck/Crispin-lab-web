@@ -34,10 +34,10 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Build
-        run: |
-          hugo \
-            --baseURL "${{ steps.pages.outputs.base_url }}/" \
-            --minify
+        # No --baseURL override: hugo.toml uses relativeURLs = true, so every internal
+        # link is relative and works at https://elgck.github.io/Crispin-lab-web/ as well
+        # as on a custom domain later.
+        run: hugo --minify
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
