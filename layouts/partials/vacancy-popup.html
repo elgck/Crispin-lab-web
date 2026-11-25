@@ -1,6 +1,6 @@
 {{- /* Job advert pop-up. Configure in hugo.toml → [params.vacancy].
        Hidden automatically after the closing date (checked at build time and in the browser).
-       Stays on screen across pages until the visitor clicks × (remembered on their device). */ -}}
+       Stays on screen across pages until the visitor clicks × (hidden for that visit only). */ -}}
 {{- $v := .Site.Params.vacancy -}}
 {{- if and $v $v.enabled (now.Before (time.AsTime (printf "%sT23:59:59Z" $v.closes))) -}}
 <aside class="vacancy" id="vacancy" role="complementary" aria-label="Job opening" aria-live="polite"
