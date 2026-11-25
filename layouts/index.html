@@ -14,7 +14,8 @@
     <div class="container hero">
       <div class="hero-head">
         <div class="hero-sup">{{ .Site.Params.labName }} · {{ .Site.Params.institute }} · {{ .Site.Params.institution }}</div>
-        <h1 class="hero-title">{{ .Site.Params.labFullName }}</h1>
+        {{- $words := split .Site.Params.labFullName " " }}
+        <h1 class="hero-title">{{ delimit (first (sub (len $words) 1) $words) " " }}<br>{{ index $words (sub (len $words) 1) }}</h1>
       </div>
       <div class="hero-text">
         <p class="hero-sub">{{ .Site.Params.tagline }}</p>

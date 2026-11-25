@@ -15,7 +15,7 @@
   --ease-out: cubic-bezier(.22, 1, .36, 1);
   --nav-h: 3.75rem;
   /* Fluid page width: grows with the screen, capped for readability */
-  --max-w: clamp(1120px, 72vw, 1560px);
+  --max-w: clamp(1120px, 78vw, 2000px);   /* content width grows on large monitors */
 }
 
 /* ── Fluid sizing: everything in rem scales smoothly with screen width ── */
@@ -1067,24 +1067,28 @@ a.social-btn:hover { background: var(--accent); border-color: var(--accent); col
 .who .life-photo img { transform: none; display: block; }
 .who .life-item { display: flex; flex-direction: column; }
 
-/* ── Hero layout: title across the top, then text | image side by side ──
-   The image column takes most of the width, and the card stack grows with the
-   window (both width and height) while always fitting on one screen. */
+/* ── Hero layout ───────────────────────────────────────────────
+   Title on two lines ("Computational Cancer" / "Research") sized to fill the
+   content width; below it, text | images side by side. Everything is sized from
+   the window so it fits on one screen (needed for the scroll animation). */
 .hero-track .hero-head { grid-column: 1 / -1; order: 0; }
-.hero-track .hero-head .hero-title { margin-bottom: 0; text-wrap-style: balance; }
+.hero-track .hero-head .hero-title { margin-bottom: 0; }
 @media (orientation: landscape) {
-  .hero-track .hero {
-    grid-template-columns: minmax(15rem, .72fr) minmax(0, 1.5fr);
-    align-items: center; row-gap: clamp(.75rem, 3svh, 2.25rem);
+  .hero-track {
+    /* title size: "Computational Cancer" fills the content width, capped by window height */
+    --ht: min(calc(min(var(--max-w), 100vw - 3rem) / 11.4), 11svh);
   }
-  .hero-track .hero-head .hero-title { font-size: min(4.3vw, 9svh, 4.2rem); white-space: nowrap; line-height: 1.02; }
-  .hero-track .hero-body { max-width: 40ch; }
-  .modality-stack { width: min(86%, calc((100svh - 25rem) * 1.25)); margin-top: 12%; }
-  /* On wide windows the image column may extend into the empty right-hand margin */
+  .hero-track .hero {
+    grid-template-columns: minmax(18rem, .85fr) minmax(0, 1.5fr);
+    align-items: center; row-gap: clamp(.75rem, 2.5svh, 2.5rem);
+  }
+  .hero-track .hero-head .hero-title { font-size: var(--ht); line-height: .98; letter-spacing: -0.025em; white-space: nowrap; }
+  .hero-track .hero-body { max-width: 46ch; font-size: clamp(.95rem, min(.85rem + .4vw, 2.1svh), 1.35rem); line-height: 1.6; }
+  /* cards take whatever height is left after the nav, title, labels and credit */
+  .modality-stack { width: min(86%, calc((100svh - 19.5rem - 2 * var(--ht)) * 1.25)); margin-top: 12%; }
+  /* on wide windows the image column may extend into the empty right-hand margin */
   .hero-track .hero-visual { margin-right: min(0px, calc((var(--max-w) - 100vw) / 2 + 1.5rem)); }
 }
-@media (orientation: landscape) and (max-width: 900px) {
-  .hero-track .hero-head .hero-title { white-space: normal; }
 }
 
 /* ── Notice shown only when a browser extension rewrites paper links ── */
