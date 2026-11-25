@@ -1,6 +1,9 @@
 baseURL = "https://crispinlab.com/"
 locale = "en-GB"
 title = "Crispin Lab"
+# Make internal links relative so the site works both at a custom domain and
+# under a sub-path such as https://elgck.github.io/Crispin-lab-web/
+relativeURLs = true
 
 [params]
   labName = "Crispin Lab"

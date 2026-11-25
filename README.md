@@ -5,7 +5,7 @@ Academic research group website for the Computational Oncology Group at the Univ
 Built with [Hugo](https://gohugo.io/) — free, fast, no database needed.  
 Deployed automatically to **GitHub Pages** (free hosting) on every push to `main`.
 
----
+----
 
 ## Quick start (local development)
 
