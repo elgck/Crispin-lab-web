@@ -6,7 +6,8 @@
 
 aim:
   heading: "Our aim"
-  text: "We develop computational models that use the data collected in routine cancer care to answer clinical questions. Our methods include machine learning, medical image analysis, computational pathology and multi-omic integration, and we work closely with clinical collaborators so that our research addresses questions that matter to patients."
+  # **bold** words; <mark>…</mark> phrases get a highlighter swept across them as you scroll to this section
+  text: "We develop computational models that use the data collected in **routine cancer care** to <mark>answer clinical questions</mark>. Our methods include **machine learning**, **medical image analysis**, **computational pathology** and **multi-omic integration**, and we work closely with clinical collaborators so that our research addresses <mark>questions that matter to patients</mark>."
 
 # Cancer focus areas (numbered cards under "Our aim"). Clicking a card opens a pop-up
 # linking to the research themes listed under `themes:`.

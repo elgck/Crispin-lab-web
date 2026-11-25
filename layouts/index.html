@@ -92,7 +92,7 @@
     <div class="aim-grid">
       <div data-reveal>
         <div class="eyebrow">{{ $home.aim.heading }}</div>
-        <p class="aim-text">{{ $home.aim.text }}</p>
+        <p class="aim-text" data-reveal>{{ $home.aim.text | markdownify }}</p>
       </div>
     </div>
     {{ partial "focus-cards.html" (dict "focus" $home.focus "parallax" true) }}
@@ -169,24 +169,6 @@
       {{ end }}
     </div>
     <p style="margin-top: 2.5rem"><a href="/research/" class="arrow-link">Full research overview, collaborators & partners</a></p>
-  </div>
-</section>
-
-<!-- ═══ Synced strips ════════════════════════════════════════ -->
-<section class="section band" data-scroll="view">
-  <div class="container">
-    <div class="eyebrow" data-reveal>Automated pathology labelling</div>
-    <h2 class="section-title" data-reveal style="margin-bottom:1.5rem">Prediction, side by side with the pathologist</h2>
-  </div>
-  <div class="band-rows">
-    <div class="band-row"><span class="band-label">SMMILe</span><img class="band-track" src="/images/research/smmile-strip.webp" alt="SMMILe spatial predictions on eight whole-slide images" loading="lazy"></div>
-    <div class="band-row"><span class="band-label">Ground truth</span><img class="band-track" src="/images/research/smmile-strip-gt.webp" alt="Pathologist ground-truth annotations for the same eight slides" loading="lazy"></div>
-  </div>
-  <div class="container">
-    <p class="credit" style="margin-top:1rem">
-      Breast, lung, renal (×2), ovarian, gastric, prostate and gastric endoscopy datasets.
-      From Fig. 5, Gao <em>et al.</em>, <a href="https://doi.org/10.1038/s43018-025-01060-8">Nature Cancer 2025</a> (CC BY 4.0).
-    </p>
   </div>
 </section>
 
