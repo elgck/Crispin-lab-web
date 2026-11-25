@@ -601,7 +601,7 @@ body { font-size: var(--fs-body); }
 /* ═════════════════════════════════════════════════════════════
    Hiring banner + pop-up
    ═════════════════════════════════════════════════════════════ */
-.hiring { background: linear-gradient(120deg, #fff4f2, #ffe6e1); border-block: 1px solid var(--brand-soft); }
+.hiring { background: var(--accent-lt); border-block: 1px solid var(--brand-soft); }
 .hiring-inner { display: grid; grid-template-columns: minmax(0, 1.6fr) auto; gap: 2rem; align-items: center; }
 .hiring-title { font-size: var(--fs-h3); line-height: 1.2; margin: .4rem 0 .6rem; letter-spacing: -.01em; }
 @media (orientation: portrait), (max-width: 760px) { .hiring-inner { grid-template-columns: 1fr; } }
@@ -753,7 +753,7 @@ body { font-size: var(--fs-body); }
 /* ═════════════════════════════════════════════════════════════
    Group leader spotlight, author highlighting, alumni
    ═════════════════════════════════════════════════════════════ */
-.pi-spot { background: linear-gradient(180deg, var(--surface) 0%, #fff6f4 100%); }
+.pi-spot { background: var(--surface-2); }   /* flat colour: browser dark modes recolour it correctly */
 .pi-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.6fr); gap: clamp(1.5rem, 1rem + 3vw, 4.5rem); align-items: center; }
 .pi-photo .person-photo, .pi-photo .person-photo-placeholder {
   width: 100%; max-width: 340px; margin: 0 auto; border-radius: 50%;
@@ -926,7 +926,7 @@ html:not(.js) .ct-tag-cect, html:not(.js) .ct-scan { display: none; }
 .collab-events ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .6rem; }
 .collab-events li { padding: .4rem .9rem; border-radius: 999px; border: 1px solid var(--rule); background: var(--surface); font-weight: 700; font-size: var(--fs-small); color: var(--ink-soft); }
 
-.research-cta { display: grid; grid-template-columns: minmax(0, 1.6fr) auto; gap: 2rem; align-items: center; padding: clamp(1.5rem, 1rem + 2vw, 3rem); border-radius: 16px; background: linear-gradient(120deg, #fff4f2, #ffe6e1); border: 1px solid var(--brand-soft); }
+.research-cta { display: grid; grid-template-columns: minmax(0, 1.6fr) auto; gap: 2rem; align-items: center; padding: clamp(1.5rem, 1rem + 2vw, 3rem); border-radius: 16px; background: var(--accent-lt); border: 1px solid var(--brand-soft); }
 @media (orientation: portrait), (max-width: 760px) { .research-cta { grid-template-columns: 1fr; } }
 
 /* ═════════════════════════════════════════════════════════════

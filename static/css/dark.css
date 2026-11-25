@@ -47,9 +47,7 @@
   .opp-cta { border: 1px solid var(--rule); }
 
   /* ── Tinted panels ──────────────────────────────────── */
-  .hiring,
-  .research-cta { background: linear-gradient(120deg, #2A1A18, #22171A); }
-  .pi-spot { background: linear-gradient(180deg, var(--surface) 0%, #1F1717 100%); }
+  /* .hiring, .research-cta and .pi-spot use flat token colours, so they switch automatically */
   .pi-photo img, .pi-photo .person-photo { box-shadow: 0 0 0 8px var(--surface), 0 0 0 9px var(--brand-soft), 0 30px 60px -30px rgba(0,0,0,.6); }
   .todo-box { background: var(--surface-2); }
   .hero-steps li { background: rgba(28, 27, 30, .85); }
