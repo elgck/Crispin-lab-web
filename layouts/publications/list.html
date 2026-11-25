@@ -1,0 +1,112 @@
+{{ define "main" }}
+<div class="page-header" data-scroll="view">
+  {{ partial "slide-bg.html" . }}
+  <div class="container">
+    <div class="eyebrow">Publications</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.lede }}<p class="lede">{{ . }}</p>{{ end }}
+  </div>
+</div>
+
+{{/* Type → filter group + label. Edit labels here. */}}
+{{ $groups := dict
+  "article"    (dict "group" "papers"     "label" "Journal article")
+  "review"     (dict "group" "papers"     "label" "Review")
+  "preprint"   (dict "group" "papers"     "label" "Preprint")
+  "conference" (dict "group" "conference" "label" "Conference paper")
+  "poster"     (dict "group" "posters"    "label" "Poster")
+  "talk"       (dict "group" "posters"    "label" "Talk")
+  "thesis"     (dict "group" "theses"     "label" "Thesis")
+}}
+{{ $filters := slice
+  (dict "key" "all" "label" "All")
+  (dict "key" "papers" "label" "Papers")
+  (dict "key" "conference" "label" "Conference papers")
+  (dict "key" "posters" "label" "Posters & talks")
+  (dict "key" "theses" "label" "Theses")
+}}
+{{ $pubs := where (partialCached "func/all-publications.html" "pubs") "context" "!=" true }}
+
+<section class="section">
+  <div class="container">
+    {{ with .Content }}<div class="prose" style="margin-bottom:1rem">{{ . }}</div>{{ end }}
+
+    <div class="pub-filters" role="toolbar" aria-label="Filter by type">
+      {{ range $filters }}
+      {{ $k := .key }}
+      {{ $n := 0 }}
+      {{ range $pubs }}{{ $g := index $groups (.type | default "article") }}{{ if or (eq $k "all") (and $g (eq $g.group $k)) }}{{ $n = add $n 1 }}{{ end }}{{ end }}
+      {{ if or (eq $k "all") (gt $n 0) }}
+      <button type="button" class="pub-filter{{ if eq $k "all" }} is-active{{ end }}" data-filter="{{ $k }}" aria-pressed="{{ if eq $k "all" }}true{{ else }}false{{ end }}">
+        {{ .label }} <span class="pub-filter-n">{{ $n }}</span>
+      </button>
+      {{ end }}
+      {{ end }}
+    </div>
+
+    <div class="pub-list-wrap">
+      {{ $years := slice }}
+      {{ range $pubs }}{{ $years = $years | append .year }}{{ end }}
+      {{ range $y := sort (uniq $years) "value" "desc" }}
+      <div class="pub-year-block">
+        <h2 class="pub-year-head">{{ $y }}</h2>
+        {{ range $i, $p := where $pubs "year" $y }}
+        {{ $t := $p.type | default "article" }}
+        {{ $g := index $groups $t }}
+        <article class="pub-row" data-group="{{ with $g }}{{ .group }}{{ end }}">
+          <div>
+            <div class="pub-meta">
+              <span class="pub-type pub-type--{{ $t }}">{{ with $g }}{{ .label }}{{ else }}{{ $t }}{{ end }}</span>
+              {{ with $p.theme }}<span class="pub-theme">{{ . }}</span>{{ end }}
+            </div>
+            <div class="pub-title">
+              {{ if $p.doi }}<a href="https://doi.org/{{ $p.doi }}">{{ $p.title }}</a>
+              {{ else if $p.pdf }}<a href="{{ $p.pdf }}">{{ $p.title }}</a>
+              {{ else if $p.url }}<a href="{{ $p.url }}">{{ $p.title }}</a>
+              {{ else }}{{ $p.title }}{{ end }}
+            </div>
+            <div class="pub-authors">{{ partial "authors.html" (dict "authors" $p.authors "site" site) }}</div>
+            {{ if $p.event }}
+              <div class="pub-journal">{{ $p.event }}{{ with $p.location }}, {{ . }}{{ end }}{{ with $p.date }} · {{ (time.AsTime .).Format "2 January 2006" }}{{ end }}</div>
+            {{ else }}
+              <div class="pub-journal">{{ $p.venue }}</div>
+            {{ end }}
+            <div class="pub-links">
+              {{ with $p.doi }}<a class="pub-link" href="https://doi.org/{{ . }}">doi:{{ . }}</a>{{ end }}
+              {{ with $p.pdf }}<a class="pub-link" href="{{ . }}">PDF</a>{{ end }}
+              {{ with $p.url }}<a class="pub-link" href="{{ . }}">Link</a>{{ end }}
+            </div>
+          </div>
+          {{ with $p.image }}<img src="/images/research/{{ . }}" alt="" loading="lazy">{{ end }}
+        </article>
+        {{ end }}
+      </div>
+      {{ end }}
+      <p class="pub-empty" hidden>Nothing here yet. Check back soon.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Filter publications by type; hides empty years.
+  (() => {
+    const buttons = document.querySelectorAll('.pub-filter');
+    const rows = document.querySelectorAll('.pub-row');
+    const blocks = document.querySelectorAll('.pub-year-block');
+    const empty = document.querySelector('.pub-empty');
+    const apply = (key) => {
+      rows.forEach((r) => { r.hidden = key !== 'all' && r.dataset.group !== key; });
+      let any = false;
+      blocks.forEach((b) => { const vis = [...b.querySelectorAll('.pub-row')].some((r) => !r.hidden); b.hidden = !vis; any = any || vis; });
+      empty.hidden = any;
+      buttons.forEach((b) => { const on = b.dataset.filter === key; b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', on); });
+    };
+    buttons.forEach((b) => b.addEventListener('click', () => {
+      apply(b.dataset.filter);
+      try { history.replaceState(null, '', b.dataset.filter === 'all' ? location.pathname : '#' + b.dataset.filter); } catch (e) {}
+    }));
+    const initial = location.hash.slice(1);
+    if ([...buttons].some((b) => b.dataset.filter === initial)) apply(initial);
+  })();
+</script>
+{{ end }}

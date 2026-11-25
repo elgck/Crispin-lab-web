@@ -1,0 +1,10 @@
+title: "ALPaCA: Adapting Llama for Pathology Context Analysis to enable slide-level question answering"
+type: article
+authors: "Z. Gao, K. He, W. Su, X. Pang, I. P. Machado, M. Jimenez-Linan, B. Rous, C. Wang, C. Li, W. McGough, S. Gao, D. Zhang, T. Gong, M. Y. Lu, F. Mahmood, M. Feng, C. Li & M. Crispin-Ortuzar"
+venue: "Nature Communications 17, 9943"
+year: 2026
+doi: "10.1038/s41467-026-76372-z"
+pi_role: "senior author"          # shown in the group-leader spotlight on the homepage
+image: "alpaca-overview.webp"
+theme: "Vision–language pathology"
+featured: true

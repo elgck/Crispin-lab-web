@@ -1,0 +1,18 @@
+{{ define "main" }}
+<div class="page-header" data-scroll="view">
+  {{ partial "slide-bg.html" . }}
+  <div class="container">
+    <div class="eyebrow">{{ .Section | title }}</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.lede }}<p class="lede">{{ . }}</p>{{ end }}
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="prose">
+      {{ .Content }}
+    </div>
+  </div>
+</section>
+{{ end }}

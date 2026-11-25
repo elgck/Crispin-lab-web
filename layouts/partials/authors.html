@@ -1,0 +1,15 @@
+{{- /* Renders an author string with lab members highlighted.
+       Mireia (group: pi) → .lab-author.pi ; other current/former members → .lab-author
+       Names come from each person's `pubnames` (or "F. Surname" from their title).
+       Usage: {{ partial "authors.html" (dict "authors" $p.authors "site" site) }} */ -}}
+{{- $out := .authors | htmlEscape -}}
+{{- range where .site.RegularPages "Section" "people" -}}
+  {{- $parts := split .Title " " -}}
+  {{- $names := .Params.pubnames | default (slice (printf "%s. %s" (substr (index $parts 0) 0 1) (index $parts (sub (len $parts) 1)))) -}}
+  {{- $cls := cond (eq .Params.group "pi") "lab-author pi" "lab-author" -}}
+  {{- range $names -}}
+    {{- $n := . | htmlEscape -}}
+    {{- $out = replace $out $n (printf `<span class="%s">%s</span>` $cls $n) -}}
+  {{- end -}}
+{{- end -}}
+{{- $out | safeHTML -}}

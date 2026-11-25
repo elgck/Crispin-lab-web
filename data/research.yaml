@@ -1,0 +1,145 @@
+# ─────────────────────────────────────────────────────────────
+# Research themes — used on the homepage (cards: eyebrow, title, teaser, thumb)
+# and on /research/ (full sections). Edit here; both pages update.
+#
+#   id        anchor used in links, e.g. /research/#imaging
+#   img       main figure in static/images/research/ (shown uncropped)
+#   thumb     homepage card image (defaults to img)
+#   figures   extra figures for the research page
+#   people    lab members (file names in content/people/)
+#   papers    DOIs or URLs of entries in data/papers/display/ to list under the theme
+# ─────────────────────────────────────────────────────────────
+themes:
+  - id: pathology
+    eyebrow: "Computational pathology"
+    title: "Labelling pathology automatically"
+    teaser: "Learning from routine slide-level labels to map tumour, subtype and tissue across gigapixel whole-slide images."
+    body:
+      - "A single digitised pathology slide contains billions of pixels, yet most slides in hospital archives come with only a slide-level diagnosis. Manually outlining tumour regions is slow and expensive, which limits the data available for training and validating AI. We develop weakly supervised and multiple-instance learning methods that locate the tumour and identify its subtype without pixel-level annotation."
+      - "SMMILe, published in Nature Cancer, gives accurate spatial quantification across eight datasets covering breast, lung, renal, ovarian, gastric and prostate cancer, while keeping slide-level accuracy. Related work extends these ideas to interactive segmentation (ProGIS), prediction of spatial transcriptomics from H&E (PH2ST), molecular-guided foundation models (CARE) and efficient reasoning over gigapixel images."
+    questions:
+      - "Where in the slide is the tumour, and which subtype is it?"
+      - "Can routine diagnoses replace costly manual annotation?"
+      - "Which tissue patterns reflect underlying molecular features?"
+    img: "smmile-annotations.webp"
+    alt: "Whole-slide images of renal and lung tumours with tumour regions shaded orange"
+    credit: "Patch-level tumour annotations, Gao et al., Nature Cancer 2025"
+    doi: "10.1038/s43018-025-01060-8"
+    figures:
+      - img: "smmile-fig5.webp"
+        caption: "Spatial quantification across eight datasets: SMMILe predictions (second-last row) compared with ground truth (last row)."
+        credit: "Fig. 5, Gao et al., Nature Cancer 2025"
+        doi: "10.1038/s43018-025-01060-8"
+    people: ["zeyu-gao", "hannah-clayton", "mireia-crispin"]
+    papers: ["10.1038/s43018-025-01060-8", "https://ieeexplore.ieee.org/abstract/document/11168941", "https://www.sciencedirect.com/science/article/pii/S1361841526000770", "https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_CARE_A_Molecular-Guided_Foundation_Model_with_Adaptive_Region_Modeling_for_CVPR_2026_paper.html", "https://arxiv.org/abs/2605.19491", "10.1038/s41591-021-01287-9"]
+
+  - id: imaging
+    eyebrow: "Medical imaging"
+    title: "Learning from routine scans"
+    teaser: "AI for routine CT across cancer types, from detecting kidney tumours on non-contrast scans to tracking how lesions respond to treatment."
+    body:
+      - "Most cancer patients have routine imaging at diagnosis, during treatment and often for unrelated reasons. Across cancer types, we develop methods to segment organs and tumours, register longitudinal scans to measure how individual lesions respond to treatment (for example in metastatic ovarian cancer), and fuse radiology with pathology using probabilistic graph neural networks."
+      - "One focus within this is kidney cancer. Kidney tumours stand out on contrast-enhanced CT but are barely visible on non-contrast CT, yet millions of non-contrast scans are performed every year for other reasons. RADAR, a deep-learning tool developed in the lab, detects small renal cancers on non-contrast CT, and current work extends it from detection to characterisation, including on lung cancer screening scans that capture part of the kidneys."
+      - "Individual projects are described on each person's profile, for example [Emma Cook](/people/emma-cook/) (kidney cancer on non-contrast and screening CT), [Shangqi Gao](/people/shangqi-gao/) (radiology–pathology integration) and [Inês Prata Machado](/people/ines-prata-machado/) (longitudinal lesion response in ovarian cancer)."
+    questions:
+      - "How can routine scans be used across cancer types?"
+      - "Can AI find small kidney tumours on routine non-contrast CT?"
+      - "How does each lesion respond to treatment over time?"
+      - "How can radiology and pathology inform each other?"
+    img: "ct-kidney-views.webp"
+    alt: "Axial, coronal and sagittal CT views with both kidneys segmented in red and a kidney tumour in green"
+    credit: "KiTS23 case 00000, data CC BY-NC-SA 4.0"
+    figures:
+      - img: "ct-multiorgan.webp"
+        caption: "Organ and tumour segmentation across cancer types: kidney (top), liver (middle) and lung (bottom), in three views."
+        credit: "Public datasets: kidney from KiTS23 (CC BY-NC-SA 4.0); liver and lung from the Medical Segmentation Decathlon (CC BY-SA 4.0)"
+      - img: "story-ct-pair.webp"
+        caption: "Why non-contrast CT is hard: the same slice without (left) and with (right) contrast, with the kidney tumour outlined."
+        credit: "KiTS23 case 2, as shown in McGough, PhD thesis, University of Cambridge 2025"
+    people: ["emma-cook", "shangqi-gao", "ines-prata-machado", "mireia-crispin"]
+    papers: ["10.1109/ISBI56570.2024.10635401", "10.1017/pcm.2022.9", "10.1007/978-3-031-73480-9_23", "10.1007/978-3-032-05162-2_54", "10.3390/cancers14020335"]
+
+  - id: multiomics
+    eyebrow: "Multi-omics & genomics"
+    title: "Predicting therapy response and HRD"
+    teaser: "Integrating clinical, genomic, transcriptomic and pathology data to predict response, and reading HRD from routine slides."
+    body:
+      - "Tumours are complex ecosystems, and no single biomarker captures how they will respond to treatment. In breast cancer, we showed that a machine-learning model integrating clinical, DNA, RNA and digital pathology features predicts pathological complete response to neoadjuvant therapy, with performance improving as each layer of data is added. Features such as HRD signatures and scores were associated with response."
+      - "Building on this, we are developing models that predict homologous recombination deficiency (HRD), a key marker of benefit from PARP inhibitors, directly from routine H&E slides in breast and gynaecological cancers. We are also studying how multimodal biomarkers could guide immunotherapy."
+    questions:
+      - "Which patients will respond to neoadjuvant therapy?"
+      - "Can HRD status be read from a routine pathology slide?"
+      - "How should multimodal biomarkers be combined and validated?"
+    img: "hrd-nature2022.webp"
+    alt: "Box plots of genomic features, including HRD score and HRD mutational signature, against residual cancer burden class"
+    credit: "Fig. 2, Sammut, Crispin-Ortuzar et al., Nature 2022"
+    doi: "10.1038/s41586-021-04278-5"
+    figures:
+      - img: "breast-multiomic.webp"
+        caption: "Study design: clinical, DNA, RNA and digital pathology features integrated into a machine-learning predictor of response."
+        credit: "Fig. 1, Sammut, Crispin-Ortuzar et al., Nature 2022"
+        doi: "10.1038/s41586-021-04278-5"
+    people: ["mireia-crispin", "zeyu-gao"]
+    papers: ["10.1038/s41586-021-04278-5", "10.1038/s41591-026-04587-0"]
+
+  - id: radiogenomics
+    eyebrow: "Radiogenomics"
+    title: "Reading tumour biology from scans"
+    teaser: "Linking CT imaging with genomics and blood biomarkers to predict chemotherapy response in ovarian cancer."
+    body:
+      - "High-grade serous ovarian cancer is highly heterogeneous, and a single biopsy rarely captures the whole disease. Radiogenomics links what we can see on routine CT to the underlying tumour biology, offering a “virtual biopsy” of every lesion."
+      - "We showed that integrating CT radiomics with circulating tumour DNA, CA-125 and clinical data predicts response to neoadjuvant chemotherapy, developed clinically interpretable radiomic predictors of histopathological response, and built an open-source platform for 3D-printed moulds that guide biopsies to imaging-defined tumour habitats."
+    questions:
+      - "Can imaging predict who will respond to chemotherapy?"
+      - "How do imaging habitats relate to tumour genomics?"
+      - "How can biopsies sample the regions that matter?"
+    img: "radiogenomics-ovarian.webp"
+    alt: "Study design and per-patient timeline of CT, blood biomarkers and treatment in high-grade serous ovarian cancer"
+    credit: "Fig. 1, Crispin-Ortuzar, Woitek et al., Nature Communications 2023"
+    doi: "10.1038/s41467-023-41820-7"
+    people: ["mireia-crispin", "ines-prata-machado"]
+    papers: ["10.1038/s41467-023-41820-7", "10.3389/fonc.2022.868265", "10.1200/CCI.20.00026", "10.1038/s41416-021-01381-2", "10.1186/s13244-020-00895-2", "10.1101/2021.07.28.21261179"]
+
+  - id: response
+    eyebrow: "Treatment response"
+    title: "Who will respond, and why?"
+    teaser: "Interpretable models that combine imaging, blood, tissue and RNA-seq to explain treatment response."
+    body:
+      - "In the NAXIVA trial of neoadjuvant axitinib for renal cell carcinoma with venous tumour thrombus, we combined MRI, blood, flow cytometry, tissue imaging and RNA-seq in an integrative machine-learning model that identified angiogenic and immune determinants of response."
+      - "Predictions are only useful if clinicians can trust them. CoxKAN uses Kolmogorov–Arnold networks to learn accurate survival models that can be simplified into symbolic formulas, showing which biomarkers drive risk and how they interact."
+    questions:
+      - "What distinguishes responders from non-responders?"
+      - "Can accurate survival models also be readable?"
+    img: "naxiva-overview.webp"
+    alt: "NAXIVA trial overview combining MRI, blood, flow cytometry, imaging and RNA-seq data"
+    credit: "Fig. 1, Wray, Paverd et al., Nature Communications 2025"
+    doi: "10.1038/s41467-025-58436-8"
+    figures:
+      - img: "coxkan-pipeline.webp"
+        caption: "CoxKAN: training, pruning and symbolic fitting of Kolmogorov–Arnold networks for survival analysis."
+        credit: "Knottenbelt, McGough et al., Bioinformatics 2025"
+        doi: "10.1093/bioinformatics/btaf413"
+    people: ["rebecca-wray", "hania-paverd", "ines-prata-machado", "mireia-crispin"]
+    papers: ["10.1038/s41467-025-58436-8", "10.1093/bioinformatics/btaf413"]
+
+  - id: agentic
+    eyebrow: "Multimodal & agentic AI"
+    title: "AI that reasons across data"
+    teaser: "Language and vision models that reason over slides, scans and clinical records."
+    body:
+      - "Large language and vision–language models open up new ways of working with clinical data. ALPaCA adapts a large language model to answer questions about entire gigapixel whole-slide images, across magnifications and regions. We also use language models to reconstruct longitudinal clinical trajectories from patient records."
+      - "Through the European IMPACT-OC consortium, we are developing multi-agent AI that brings together imaging, genomics, histopathology and clinical records to support decisions in ovarian cancer care."
+    questions:
+      - "Can AI answer clinical questions about a whole slide?"
+      - "How can agents combine evidence across modalities safely?"
+    img: "alpaca-overview.webp"
+    alt: "Overview diagram of the ALPaCA model"
+    credit: "Study overview, Gao et al., Nature Communications 2026"
+    doi: "10.1038/s41467-026-76372-z"
+    figures:
+      - img: "review-paradigm.webp"
+        caption: "From task-specific models to general-purpose foundation models in computational pathology."
+        credit: "Gao, Ge, Lu et al., Intelligent Oncology 2026"
+        doi: "10.1016/j.intonc.2026.100074"
+    people: ["zeyu-gao", "hania-paverd", "ines-prata-machado", "mireia-crispin"]
+    papers: ["10.1038/s41467-026-76372-z", "10.1038/s41698-026-01650-4", "10.1016/j.intonc.2026.100074"]

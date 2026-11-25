@@ -1,0 +1,18 @@
+{{- /* Splits data/events.yaml into upcoming (soonest first, TBD last) and past (newest first).
+       Each item gets `next` (time) / `tbd` / `last`. */ -}}
+{{- $today := now.Format "2006-01-02" -}}
+{{- $up := slice }}{{ $tbd := slice }}{{ $past := slice }}{{ $reg := slice -}}
+{{- range hugo.Data.events.events -}}
+  {{- $e := . -}}
+  {{- if and .recurring (not .date) (not .dates) }}{{ $reg = $reg | append (merge $e (dict "regular" true)) }}{{ continue }}{{ end -}}
+  {{- $ds := .dates | default (slice (.date | default "TBD")) -}}
+  {{- $next := "" }}{{ $last := "" -}}
+  {{- range sort $ds -}}{{- if ne . "TBD" -}}
+    {{- if and (ge . $today) (not $next) }}{{ $next = . }}{{ end -}}
+    {{- if lt . $today }}{{ $last = . }}{{ end -}}
+  {{- end -}}{{- end -}}
+  {{- if $next -}}{{ $up = $up | append (merge $e (dict "next" $next)) -}}
+  {{- else if in $ds "TBD" -}}{{ $tbd = $tbd | append (merge $e (dict "tbd" true)) -}}
+  {{- else -}}{{ $past = $past | append (merge $e (dict "last" $last)) }}{{ end -}}
+{{- end -}}
+{{- return dict "upcoming" ((sort $up "next") | append $tbd) "regular" $reg "past" (sort $past "last" "desc") -}}

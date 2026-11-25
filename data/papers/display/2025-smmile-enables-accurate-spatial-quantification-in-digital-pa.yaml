@@ -1,0 +1,10 @@
+title: "SMMILe enables accurate spatial quantification in digital pathology using multiple-instance learning"
+type: article
+authors: "Z. Gao, A. Mao, Y. Dong, H. Clayton, J. Wu, J. Liu, C. Wang, K. He, T. Gong, C. Li & M. Crispin-Ortuzar"
+venue: "Nature Cancer 6, 2025–2041"
+year: 2025
+doi: "10.1038/s43018-025-01060-8"
+pi_role: "senior author"          # shown in the group-leader spotlight on the homepage
+image: "smmile-annotations.webp"
+theme: "Computational pathology"
+featured: true

@@ -1,0 +1,63 @@
+{{ define "main" }}
+<div class="page-header" data-scroll="view">
+  {{ partial "slide-bg.html" . }}
+  <div class="container">
+    <div class="eyebrow">People</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.lede }}<p class="lede">{{ . }}</p>{{ end }}
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    {{ with .Content }}<div class="prose" style="margin-bottom:3rem">{{ . }}</div>{{ end }}
+
+    {{/* Groups appear in this order. Set `group:` in each person's front matter. */}}
+    {{ $groups := slice
+      (dict "key" "pi"      "label" "Group leader")
+      (dict "key" "postdoc" "label" "Postdoctoral researchers")
+      (dict "key" "phd"     "label" "PhD students")
+      (dict "key" "mphil"   "label" "MPhil students")
+      (dict "key" "staff"   "label" "Research staff")
+      (dict "key" "visitor" "label" "Visitors")
+      (dict "key" "alumni"  "label" "Alumni")
+    }}
+    {{ $pages := .Pages.ByWeight }}
+    {{ range $groups }}
+      {{ $label := .label }}{{ $key := .key }}
+      {{ $members := where $pages "Params.group" .key }}
+      {{ with $members }}
+      <h2 class="people-group-head" id="{{ $key }}" data-reveal>{{ $label }}</h2>
+      <div class="people-grid">
+        {{ range $i, $p := . }}
+        <a class="person-card" href="{{ $p.RelPermalink }}" data-reveal style="--i: {{ $i }}">
+          {{ partial "person-photo.html" $p }}
+          <div class="person-name">{{ $p.Title }}</div>
+          <div class="person-role">{{ $p.Params.role }}</div>
+        {{ with $p.Params.status }}<div class="person-status">{{ . }}</div>{{ end }}
+          {{ with $p.Params.now }}<div class="person-now">Now: {{ . }}</div>{{ end }}
+        </a>
+        {{ end }}
+      </div>
+      {{ end }}
+    {{ end }}
+
+    {{/* Anyone without a recognised group still appears */}}
+    {{ $keys := slice }}{{ range $groups }}{{ $keys = $keys | append .key }}{{ end }}
+    {{ $other := where $pages "Params.group" "not in" $keys }}
+    {{ with $other }}
+      <h2 class="people-group-head" data-reveal>Team</h2>
+      <div class="people-grid">
+        {{ range $i, $p := . }}
+        <a class="person-card" href="{{ $p.RelPermalink }}" data-reveal style="--i: {{ $i }}">
+          {{ partial "person-photo.html" $p }}
+          <div class="person-name">{{ $p.Title }}</div>
+          <div class="person-role">{{ $p.Params.role }}</div>
+        {{ with $p.Params.status }}<div class="person-status">{{ . }}</div>{{ end }}
+        </a>
+        {{ end }}
+      </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

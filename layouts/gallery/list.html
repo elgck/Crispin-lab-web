@@ -1,0 +1,42 @@
+{{ define "main" }}
+<div class="page-header" data-scroll="view">
+  {{ partial "slide-bg.html" . }}
+  <div class="container">
+    <div class="eyebrow">Gallery</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.lede }}<p class="lede">{{ . }}</p>{{ end }}
+  </div>
+</div>
+<section class="section">
+  <div class="container">
+    <div class="gallery">
+      {{ range $i, $p := hugo.Data.gallery.photos }}
+      <figure class="gallery-item" data-reveal style="--i: {{ mod $i 6 }}">
+        <a href="{{ $p.src }}" data-lightbox="{{ $i }}"><img src="{{ $p.src }}" alt="{{ $p.caption }}" loading="lazy"></a>
+        {{ with $p.caption }}<figcaption>{{ . }}</figcaption>{{ end }}
+      </figure>
+      {{ end }}
+    </div>
+  </div>
+</section>
+<dialog class="lightbox" aria-label="Photo viewer">
+  <button class="lb-close" type="button" aria-label="Close">×</button>
+  <button class="lb-prev" type="button" aria-label="Previous">‹</button>
+  <figure><img alt=""><figcaption></figcaption></figure>
+  <button class="lb-next" type="button" aria-label="Next">›</button>
+</dialog>
+<script>
+(() => {
+  const links=[...document.querySelectorAll('[data-lightbox]')], dlg=document.querySelector('.lightbox');
+  if(!dlg||!dlg.showModal) return;
+  const img=dlg.querySelector('img'), cap=dlg.querySelector('figcaption'); let i=0;
+  const show=(k)=>{ i=(k+links.length)%links.length; const a=links[i]; img.src=a.href; img.alt=a.querySelector('img').alt; cap.textContent=img.alt; };
+  links.forEach((a,k)=>a.addEventListener('click',e=>{e.preventDefault(); show(k); dlg.showModal();}));
+  dlg.querySelector('.lb-close').onclick=()=>dlg.close();
+  dlg.querySelector('.lb-prev').onclick=()=>show(i-1);
+  dlg.querySelector('.lb-next').onclick=()=>show(i+1);
+  dlg.addEventListener('click',e=>{ if(e.target===dlg) dlg.close(); });
+  document.addEventListener('keydown',e=>{ if(!dlg.open) return; if(e.key==='ArrowLeft') show(i-1); if(e.key==='ArrowRight') show(i+1); });
+})();
+</script>
+{{ end }}

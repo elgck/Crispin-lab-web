@@ -1,0 +1,15 @@
+{{- /*
+  Photo with caption. Shows a labelled placeholder until the file exists.
+  {{< photo src="/images/environment/eci.jpg" caption="The Early Cancer Institute" >}}
+  Optional: ratio="16/9" (default 3/2), wide="true"
+*/ -}}
+{{- $src := .Get "src" -}}
+{{- $ratio := .Get "ratio" | default "3 / 2" -}}
+<figure class="photo{{ if .Get "wide" }} photo--wide{{ end }}" data-reveal>
+  {{- if fileExists (printf "static%s" $src) }}
+  <img src="{{ $src }}" alt="{{ .Get "caption" }}" loading="lazy" style="aspect-ratio: {{ $ratio }}">
+  {{- else }}
+  <div class="photo-slot" style="aspect-ratio: {{ $ratio }}"><span>Photo</span><small>Add {{ $src }}</small></div>
+  {{- end }}
+  {{ with .Get "caption" }}<figcaption class="credit">{{ . }}</figcaption>{{ end }}
+</figure>

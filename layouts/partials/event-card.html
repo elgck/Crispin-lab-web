@@ -1,0 +1,39 @@
+{{- $e := . -}}
+{{- $d := $e.next | default $e.last -}}
+{{- $aud := dict "public" "Open to all" "university" "University members" "department" "Department of Oncology" "lab" "Lab members only" -}}
+<article class="event-card{{ if $e.last }} is-past{{ end }}" data-audience="{{ $e.audience | default "public" }}" data-reveal>
+  <div class="event-date" aria-hidden="true">
+    {{ if $d }}{{ $t := time.AsTime $d }}<span class="ev-day">{{ $t.Format "2" }}</span><span class="ev-mon">{{ $t.Format "Jan" }}</span><span class="ev-yr">{{ $t.Format "2006" }}</span>
+    {{ else if $e.regular }}<span class="ev-reg" aria-hidden="true">↻</span><span class="ev-mon">Regular</span>
+    {{ else }}<span class="ev-tbd">Date<br>TBC</span>{{ end }}
+  </div>
+  <div class="event-body">
+    <div class="event-meta">
+      {{ with $e.tag }}<span class="pub-type event-tag">{{ . }}</span>{{ end }}
+      {{ $a := $e.audience | default "public" }}<span class="event-aud event-aud--{{ $a }}">{{ $e.audience_note | default (index $aud $a) }}</span>
+      {{ if and $e.recurring (not $e.regular) }}<span class="event-recurring">↻ {{ $e.recurring }}</span>{{ end }}
+    </div>
+    <h3>{{ if $e.url }}<a href="{{ $e.url }}" target="_blank" rel="noopener">{{ $e.title }}</a>{{ else }}{{ $e.title }}{{ end }}</h3>
+    <p class="event-when">
+      {{ if $d }}{{ (time.AsTime $d).Format "Monday 2 January 2006" }}{{ if $e.recurring }} (next session){{ end }}{{ else if $e.regular }}{{ $e.recurring }}{{ else }}Date to be confirmed{{ end }}
+      {{ with $e.time }}<br><span>{{ . }}</span>{{ end }}
+      {{ with $e.location }}<br><span>📍 {{ . }}</span>{{ end }}
+    </p>
+    {{ with $e.summary }}<p>{{ . }}</p>{{ end }}
+    <div class="event-org">
+      {{ with $e.organisers_label }}<span class="event-with event-lead">{{ . }}</span>{{ end }}
+      {{ range $e.organisers }}{{ with site.GetPage (printf "/people/%s" .) }}{{ if not .Params.hidden }}<a href="{{ .RelPermalink }}" title="{{ .Title }}">{{ partial "person-photo.html" . }}<span>{{ .Title }}</span></a>{{ end }}{{ end }}{{ end }}
+      {{ with $e.with }}<span class="event-with">{{ if $e.organisers }}with {{ end }}{{ . }}</span>{{ end }}
+    </div>
+    {{ if or $e.url $e.register $e.archive }}
+    <div class="event-actions">
+      {{ with $e.register }}<a class="btn btn-primary" href="{{ . }}" target="_blank" rel="noopener">{{ $e.register_label | default "Register" }} ↗</a>{{ end }}
+      {{ with $e.url }}<a class="btn btn-outline" href="{{ . }}" target="_blank" rel="noopener">Event page ↗</a>{{ end }}
+      {{ with $e.archive }}<a class="btn btn-outline" href="/events/#archive-{{ . }}">Past sessions</a>{{ end }}
+    </div>
+    {{ end }}
+    {{ if and $e.dates $e.next }}{{ $rest := slice }}{{ range sort $e.dates }}{{ if gt . $e.next }}{{ $rest = $rest | append ((time.AsTime .).Format "2 Jan") }}{{ end }}{{ end }}
+      {{ with $rest }}<p class="event-later">Later dates: {{ delimit . " · " }}</p>{{ end }}
+    {{ end }}
+  </div>
+</article>

@@ -1,0 +1,58 @@
+# ─────────────────────────────────────────────────────────────
+# Homepage text. Edit freely — no HTML needed.
+# Empty strings ("") show as a neat placeholder until filled in.
+# Images: paths are relative to static/ (e.g. /images/lab/retreat.jpg)
+# ─────────────────────────────────────────────────────────────
+
+aim:
+  heading: "Our aim"
+  text: "We develop computational models that use the data collected in routine cancer care to answer clinical questions. Our methods include machine learning, medical image analysis, computational pathology and multi-omic integration, and we work closely with clinical collaborators so that our research addresses questions that matter to patients."
+
+# Cancer focus areas (numbered cards under "Our aim")
+focus:
+  - title: "Urological cancers"
+    text: "Kidney and bladder cancer: detecting tumours on routine non-contrast CT, grading pathology and predicting response to treatment."
+    image: "/images/research/ct-kidney-coronal.webp"
+  - title: "Gynaecological cancers"
+    text: "Ovarian and other gynaecological cancers: radiogenomic models of chemotherapy response, image-guided biopsies and HRD prediction from pathology."
+    image: "/images/research/focus-gynae.webp"
+  - title: "Breast cancer"
+    text: "Multi-omic machine learning that predicts response to neoadjuvant therapy, and models that read HRD and tumour biology from routine slides and scans."
+    image: "/images/research/focus-breast.png"   # crop of Fig. 1, Sammut et al., Nature 2022
+    fit: "contain"
+  - title: "Pan-cancer"
+    text: "Methods that work across cancer types, from early detection of oesophageal cancer to automated pathology labelling and foundation models."
+    image: "/images/research/ct-axial-strip.webp"
+
+# Research themes now live in data/research.yaml (shared by the homepage and /research/).
+
+# The human side
+team:
+  heading: "Who we are"
+  intro: "We are an interdisciplinary team of physicists, computer scientists, engineers and biologists based at the Early Cancer Institute in Cambridge, working closely with clinical collaborators."
+  more: ""            # optional second paragraph, e.g. how you work, what you enjoy
+  group_photo: "/images/lab/group.jpg"
+  group_caption: "The Crispin Lab"
+  group_detail: "Early Cancer Institute, Cambridge"
+  values:
+    - title: "Interdisciplinary"
+      text: "Using our diverse backgrounds to tackle problems from multiple angles."
+    - title: "Clinically grounded"
+      text: "Working closely with clinicians to ensure our research addresses real-world medical challenges."
+    - title: "Open & collaborative"
+      text: "Sharing our knowledge and resources to advance the field of computational oncology."
+  # Lab-life photos — drop files into static/images/lab/ with these names
+  # caption: short title (bold) · detail: optional second line (place, year)
+  life:
+    - photo: "/images/lab/life-1.jpg"
+      caption: "ESMO Congress"
+      detail: ""
+    - photo: "/images/lab/life-2.jpg"
+      caption: "MICCAI 2025"
+      detail: "Daejeon, South Korea"
+    - photo: "/images/lab/life-3.jpg"
+      caption: "Charity run"
+      detail: ""
+    - photo: "/images/lab/life-4.jpg"
+      caption: "Christmas dinner"
+      detail: ""

@@ -1,0 +1,106 @@
+{{ define "main" }}
+<div class="page-header" data-scroll="view">
+  {{ partial "slide-bg.html" . }}
+  <div class="container">
+    <div class="eyebrow"><a href="/people/">People</a></div>
+  </div>
+</div>
+
+<section class="section person-page">
+  <div class="container person-layout">
+    <aside class="person-aside" data-reveal>
+      {{ partial "person-photo.html" . }}
+      <h1 class="person-page-name">{{ .Title }}</h1>
+      <div class="person-page-role">{{ .Params.role }}</div>
+      {{ with .Params.previously }}<div class="person-previously">Previously in the lab: {{ delimit . " · " }}</div>{{ end }}
+      {{ with .Params.status }}<div class="alumni-badge person-status-badge">{{ . }}</div>{{ end }}
+      {{ if eq .Params.group "alumni" }}<div class="alumni-badge">Lab alumni{{ with .Params.now }} · Now: {{ . }}{{ end }}</div>{{ end }}
+
+      {{/* ── Links: same structure on every profile ───────────────────
+           1) LinkedIn + Google Scholar as icon buttons (muted until added)
+           2) separator, then any extra links this person has            */}}
+      <div class="person-social" aria-label="Profiles">
+        {{ range slice (dict "k" "linkedin" "label" "LinkedIn") (dict "k" "scholar" "label" "Google Scholar") }}
+          {{ $k := .k }}{{ $label := .label }}
+          {{ with index $.Params $k }}
+            <a class="social-btn social-btn--{{ $k }}" href="{{ . }}" target="_blank" rel="noopener" aria-label="{{ $.Title }} on {{ $label }}">{{ partial "icon.html" $k }}<span>{{ $label }}</span></a>
+          {{ else }}
+            <span class="social-btn social-btn--{{ $k }} is-empty" title="{{ $label }} profile not added yet" aria-hidden="true">{{ partial "icon.html" $k }}<span>{{ $label }}</span></span>
+          {{ end }}
+        {{ end }}
+      </div>
+
+      {{ $extra := slice }}
+      {{ with .Params.email }}{{ $extra = $extra | append (dict "k" "email" "label" "Email" "url" (printf "mailto:%s" .)) }}{{ end }}
+      {{ with .Params.website }}{{ $extra = $extra | append (dict "k" "website" "label" "Website" "url" .) }}{{ end }}
+      {{ with .Params.orcid }}{{ $extra = $extra | append (dict "k" "orcid" "label" "ORCID" "url" .) }}{{ end }}
+      {{ with .Params.github }}{{ $extra = $extra | append (dict "k" "github" "label" "GitHub" "url" .) }}{{ end }}
+      {{ with $extra }}
+      <ul class="person-links">
+        {{ range . }}<li><a href="{{ .url }}"{{ if not (hasPrefix .url "mailto:") }} target="_blank" rel="noopener"{{ end }}>{{ partial "icon.html" .k }}<span>{{ .label }}</span></a></li>{{ end }}
+      </ul>
+      {{ end }}
+
+      {{ with .Params.interests }}
+      <div class="person-interests">
+        <div class="eyebrow">Research interests</div>
+        <ul>{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+      </div>
+      {{ end }}
+    </aside>
+
+    <div class="person-bio" data-reveal style="--i: 1">
+      <h2 class="eyebrow">Biography</h2>
+      {{ if (strings.TrimSpace .Plain) }}
+        <div class="prose">{{ .Content }}</div>
+      {{ else }}
+        <p class="bio-placeholder">Bio coming soon.</p>
+      {{ end }}
+
+      {{/* ── Selected work ─────────────────────────────────────────────
+           2–4 items chosen by the person, listed under `selected:` in their file.
+           Each item is either a DOI/URL of a lab paper (details filled in
+           automatically) or a full entry, e.g. a poster:
+             - title: "…"  type: poster  event: "…"  year: 2026  pdf: "/files/posters/x.pdf" */}}
+      {{ $all := partialCached "func/all-publications.html" "pubs" }}
+      {{ $items := slice }}
+      {{ range .Params.selected }}
+        {{ if reflect.IsMap . }}
+          {{ $items = $items | append . }}
+        {{ else }}
+          {{ $k := lower . }}{{ $hit := false }}
+          {{ range $all }}{{ if and (not $hit) (or (eq (lower (.doi | default "")) $k) (eq (lower (.url | default "")) $k)) }}{{ $items = $items | append . }}{{ $hit = true }}{{ end }}{{ end }}
+        {{ end }}
+      {{ end }}
+      {{/* plus any paper in data/new_papers.yaml whose `profiles` lists this person */}}
+      {{ $slug := .File.ContentBaseName }}
+      {{ $have := slice }}{{ range $items }}{{ $have = $have | append (lower (.doi | default .title)) }}{{ end }}
+      {{ range $all }}{{ if and .profiles (in .profiles $slug) (not (in $have (lower (.doi | default .title)))) }}{{ $items = $items | append . }}{{ end }}{{ end }}
+      {{ $items = sort $items "year" "desc" }}
+      <div class="person-pubs-head">
+        <h2 class="eyebrow">Selected work</h2>
+        <a class="credit" href="/publications/">All lab publications →</a>
+      </div>
+      {{ if not $items }}<p class="bio-placeholder">Selected papers and posters coming soon.</p>{{ end }}
+      {{ with $items }}
+      <div class="pub-list">
+        {{ range . }}
+        {{ $href := .url | default .pdf }}{{ with .doi }}{{ $href = printf "https://doi.org/%s" . }}{{ end }}
+        {{ $t := .type | default "article" }}
+        <div class="pub-item">
+          <div class="pub-year">{{ .year }}</div>
+          <div>
+            <div class="pub-meta"><span class="pub-type pub-type--{{ $t }}">{{ index (dict "article" "Journal article" "review" "Review" "commentary" "Commentary" "conference" "Conference paper" "preprint" "Preprint" "thesis" "Thesis" "poster" "Poster" "talk" "Talk") $t | default $t }}</span>{{ with .note }}<span class="pub-note">{{ . }}</span>{{ end }}</div>
+            <div class="pub-title">{{ if $href }}<a href="{{ $href }}">{{ .title }}</a>{{ else }}{{ .title }}{{ end }}</div>
+            {{ with .authors }}<div class="pub-authors">{{ partial "authors.html" (dict "authors" . "site" site) }}</div>{{ end }}
+            <div class="pub-journal">{{ .venue | default .event }}{{ with .location }}, {{ . }}{{ end }}</div>
+            {{ with .pdf }}<a class="pub-link" href="{{ . }}">PDF</a>{{ end }}
+          </div>
+        </div>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}

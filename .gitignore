@@ -1,0 +1,13 @@
+# Hugo build output
+public/
+resources/
+.hugo_build.lock
+# Source PDFs used for inspiration — large and copyrighted, never publish
+inspiration/
+.DS_Store
+# Per-person drop-box: keep folder structure, never commit contents (may hold unpublished work)
+people-files/*/*/*
+!people-files/*/*/.gitkeep
+# Media inbox: keep folder structure, never commit contents
+media-inbox/*/*
+!media-inbox/*/.gitkeep

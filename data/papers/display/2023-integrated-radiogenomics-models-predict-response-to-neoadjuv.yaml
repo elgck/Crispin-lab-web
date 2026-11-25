@@ -1,0 +1,10 @@
+title: "Integrated radiogenomics models predict response to neoadjuvant chemotherapy in high grade serous ovarian cancer"
+type: "article"
+authors: "M. Crispin-Ortuzar, R. Woitek, M. A. V. Reinius, E. Moore, L. Beer, V. Bura, L. Rundo, C. McCague, S. Ursprung, L. Escudero Sanchez, P. Martin-Gonzalez, F. Mouliere, D. Chandrananda, J. Morris, T. Goranova, A. M. Piskorz, N. Singh, A. Sahdev, R. Pintican, M. Zerunian, N. Rosenfeld, H. Addley, M. Jimenez-Linan, F. Markowetz, E. Sala & J. D. Brenton"
+venue: "Nature Communications 14, 6756"
+year: 2023
+doi: "10.1038/s41467-023-41820-7"
+pi_role: "first author"          # shown in the group-leader spotlight on the homepage
+image: "radiogenomics-ovarian.webp"
+theme: "Treatment response"
+featured: true

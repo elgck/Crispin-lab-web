@@ -1,0 +1,10 @@
+{{- /* Shows the person's photo if the file exists in static/, otherwise their initials. */ -}}
+{{- $photo := .Params.photo -}}
+{{- if and $photo (fileExists (printf "static%s" $photo)) -}}
+  <img src="{{ $photo }}" alt="{{ .Title }}" class="person-photo" loading="lazy">
+{{- else -}}
+  {{- $parts := split .Title " " -}}
+  {{- $initials := substr (index $parts 0) 0 1 -}}
+  {{- if gt (len $parts) 1 }}{{ $initials = printf "%s%s" $initials (substr (index $parts (sub (len $parts) 1)) 0 1) }}{{ end -}}
+  <div class="person-photo-placeholder" aria-hidden="true">{{ $initials }}</div>
+{{- end -}}

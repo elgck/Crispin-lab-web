@@ -1,0 +1,10 @@
+title: "Multi-omic machine learning predictor of breast cancer therapy response"
+type: "article"
+authors: "S.-J. Sammut, M. Crispin-Ortuzar, S.-F. Chin, E. Provenzano, H. A. Bardwell, W. Ma, W. Cope, A. Dariush, S.-J. Dawson, J. E. Abraham, J. Dunn, L. Hiller, J. Thomas, D. A. Cameron, J. M. S. Bartlett, L. Hayward, P. D. Pharoah, F. Markowetz, O. M. Rueda, H. M. Earl & C. Caldas"
+venue: "Nature 601, 623–629"
+year: 2022
+doi: "10.1038/s41586-021-04278-5"
+pi_role: "joint second author"          # shown in the group-leader spotlight on the homepage
+image: "breast-multiomic.webp"
+theme: "Multi-omic integration"
+featured: true

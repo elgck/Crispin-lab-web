@@ -1,0 +1,55 @@
+{{- /* Returns all lab publications:
+         1) data/papers/display/*.yaml + data/papers/context/*.yaml (context ones get `context: true`)
+         2) data/new_papers.yaml     — new papers; for DOIs, details are fetched from Crossref at build time
+       Each item keeps a `profiles` list (people whose profile should show it). Duplicates removed by DOI/title.
+       Cached per build via partialCached. */ -}}
+{{- $out := slice -}}{{- $seen := slice -}}
+{{- $papers := slice -}}
+{{- with hugo.Data.papers -}}
+  {{- range .display }}{{ $papers = $papers | append . }}{{ end -}}
+  {{- range .context }}{{ $papers = $papers | append (merge . (dict "context" true)) }}{{ end -}}
+{{- end -}}
+{{- range $papers -}}
+  {{- $out = $out | append . -}}
+  {{- with .doi }}{{ $seen = $seen | append (lower .) }}{{ end -}}
+  {{- $seen = $seen | append (substr (lower (replaceRE "[^A-Za-z0-9]" "" .title)) 0 50) -}}
+{{- end -}}
+{{- with hugo.Data.new_papers -}}
+{{- range .papers -}}
+  {{- $p := . -}}
+  {{- $doi := lower (strings.TrimSpace (replaceRE "^https?://(dx\\.)?doi\\.org/" "" ($p.doi | default ""))) -}}
+  {{- $item := dict "title" $p.title "authors" $p.authors "venue" $p.venue "year" $p.year "type" ($p.type | default "article") "doi" $doi "url" $p.url "theme" $p.theme "note" $p.note "image" $p.image "featured" $p.featured "profiles" ($p.profiles | default slice) -}}
+  {{- if and $doi (not $p.title) -}}
+    {{- $opts := dict "headers" (dict "User-Agent" "CrispinLabWebsite/1.0 (mailto:mc973@cam.ac.uk)") -}}
+    {{- with try (resources.GetRemote (printf "https://api.crossref.org/works/%s" $doi) $opts) -}}
+      {{- with .Err -}}
+        {{- warnf "new_papers: could not fetch %s from Crossref (%s) — add title/authors/venue/year by hand" $doi . -}}
+      {{- else with .Value -}}
+        {{- $m := (transform.Unmarshal .Content).message -}}
+        {{- $names := slice -}}
+        {{- range $m.author -}}
+          {{- $ini := slice -}}
+          {{- range (split (replace (.given | default "") "-" " ") " ") }}{{ if . }}{{ $ini = $ini | append (printf "%s." (substr . 0 1)) }}{{ end }}{{ end -}}
+          {{- $names = $names | append (strings.TrimSpace (printf "%s %s" (delimit $ini " ") (.family | default .name))) -}}
+        {{- end -}}
+        {{- $auth := "" -}}
+        {{- if gt (len $names) 1 }}{{ $auth = printf "%s & %s" (delimit (first (sub (len $names) 1) $names) ", ") (index $names (sub (len $names) 1)) }}{{ else }}{{ $auth = delimit $names "" }}{{ end -}}
+        {{- $venue := index ($m.container_title | default (index $m "container-title")) 0 | default "" -}}
+        {{- with $m.volume }}{{ $venue = printf "%s %s" $venue . }}{{ end -}}
+        {{- with (index $m "article-number") }}{{ $venue = printf "%s, %s" $venue . }}{{ else }}{{ with $m.page }}{{ $venue = printf "%s, %s" $venue . }}{{ end }}{{ end -}}
+        {{- $year := index (index (index ($m.published | default $m.issued) "date-parts") 0) 0 -}}
+        {{- $item = merge $item (dict "title" (index $m.title 0) "authors" $auth "venue" $venue "year" $year) -}}
+        {{- if eq $m.type "posted-content" }}{{ $item = merge $item (dict "type" "preprint") }}{{ end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $item.title -}}
+    {{- $tk := substr (lower (replaceRE "[^A-Za-z0-9]" "" $item.title)) 0 50 -}}
+    {{- if not (or (and $doi (in $seen $doi)) (in $seen $tk)) -}}
+      {{- $out = $out | append $item -}}
+      {{- $seen = $seen | append $tk -}}{{- with $doi }}{{ $seen = $seen | append . }}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- end -}}
+{{- return sort $out "year" "desc" -}}

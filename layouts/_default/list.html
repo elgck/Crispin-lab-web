@@ -1,0 +1,56 @@
+{{ define "main" }}
+<div class="page-header" data-scroll="view">
+  {{ partial "slide-bg.html" . }}
+  <div class="container">
+    <div class="eyebrow">{{ .Section | title }}</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.lede }}<p class="lede">{{ . }}</p>{{ end }}
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    {{ if .Content }}<div class="prose" style="margin-bottom:3rem">{{ .Content }}</div>{{ end }}
+
+    {{ if eq .Section "news" }}
+    <div class="news-grid">
+      {{ range .Pages }}
+      <article class="news-card">
+        <div class="news-card-body">
+          <div class="news-date">{{ .Date.Format "2 January 2006" }}</div>
+          <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          {{ with .Params.summary }}<p>{{ . }}</p>{{ end }}
+          <p style="margin-top:0.75rem"><a href="{{ .RelPermalink }}" class="arrow-link">Read more</a></p>
+        </div>
+      </article>
+      {{ end }}
+    </div>
+
+    {{ else if eq .Section "people" }}
+    <div class="people-grid">
+      {{ range $i, $p := .Pages.ByWeight }}
+      <div class="person-card" data-reveal style="--i: {{ $i }}">
+        {{ partial "person-photo.html" $p }}
+        <div class="person-name"><a href="{{ .RelPermalink }}" style="color:inherit">{{ .Title }}</a></div>
+        <div class="person-role">{{ .Params.role }}</div>
+      </div>
+      {{ end }}
+    </div>
+
+    {{ else }}
+    <div class="prose">
+      {{ range .Pages }}
+      <article style="margin-bottom:2rem; padding-bottom:2rem; border-bottom:1px solid var(--rule)">
+        <h2 style="font-family:var(--font-serif); font-size:1.25rem; margin-bottom:0.4rem">
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </h2>
+        {{ with .Params.summary }}<p>{{ . }}</p>{{ end }}
+        <p><a href="{{ .RelPermalink }}" class="arrow-link">Read more</a></p>
+      </article>
+      {{ end }}
+    </div>
+    {{ end }}
+
+  </div>
+</section>
+{{ end }}

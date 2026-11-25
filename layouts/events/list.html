@@ -1,0 +1,74 @@
+{{ define "main" }}
+{{ $ev := partial "func/events-sorted.html" . }}
+{{/* Public-facing events go at the top; audience "lab" events go in "Inside the lab" at the bottom. */}}
+{{ $upcoming := where $ev.upcoming "audience" "ne" "lab" }}
+{{ $regular := where $ev.regular "audience" "ne" "lab" }}
+{{ $past := where $ev.past "audience" "ne" "lab" }}
+{{ $lab := slice }}
+{{ range (slice $ev.upcoming $ev.regular $ev.past) }}{{ range where . "audience" "lab" }}{{ $lab = $lab | append . }}{{ end }}{{ end }}
+
+<div class="page-header" data-scroll="view">
+  {{ partial "slide-bg.html" . }}
+  <div class="container">
+    <div class="eyebrow">Events</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.lede }}<p class="lede">{{ . }}</p>{{ end }}
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="pub-filters" role="toolbar" aria-label="Filter by who can attend">
+      {{ range slice (dict "k" "all" "l" "All events") (dict "k" "public" "l" "Open to all") (dict "k" "university" "l" "University & department") }}
+      <button type="button" class="pub-filter{{ if eq .k "all" }} is-active{{ end }}" data-filter="{{ .k }}" aria-pressed="{{ eq .k "all" }}">{{ .l }}</button>
+      {{ end }}
+    </div>
+
+    <h2 class="people-group-head">Upcoming</h2>
+    {{ with $upcoming }}<div class="event-list">{{ range . }}{{ partial "event-card.html" . }}{{ end }}</div>
+    {{ else }}<p class="bio-placeholder">No upcoming events right now. Check back soon.</p>{{ end }}
+
+    {{ with $regular }}
+    <h2 class="people-group-head" style="margin-top:3.5rem">Regular events</h2>
+    <div class="event-list">{{ range . }}{{ partial "event-card.html" . }}{{ end }}</div>
+    {{ end }}
+
+    {{ with $past }}
+    <h2 class="people-group-head" style="margin-top:3.5rem">Past events</h2>
+    <div class="event-list">{{ range . }}{{ partial "event-card.html" . }}{{ end }}</div>
+    {{ end }}
+
+    {{ partial "seminar-archive.html" . }}
+  </div>
+</section>
+
+{{ with $lab }}
+<section class="section section--tinted lab-life" id="inside-the-lab">
+  <div class="container">
+    <div class="lab-life-head">
+      <div class="eyebrow">Inside the lab</div>
+      <h2 class="section-title">How we work together</h2>
+      <p class="lede">Alongside the public series, we meet as a group every week. These meetings are where projects get discussed, papers get picked apart and new members find their feet. If you join the lab, this is what you will be part of.</p>
+    </div>
+    <div class="event-list">{{ range . }}{{ partial "event-card.html" . }}{{ end }}</div>
+  </div>
+</section>
+{{ end }}
+
+<script>
+  // Filter the public events by audience; "University & department" covers both levels. Empty sections are hidden.
+  (() => {
+    const btns = document.querySelectorAll('.pub-filter');
+    const cards = document.querySelectorAll('.section:not(.lab-life) .event-card');
+    const ok = (k, a) => k === 'all' || a === k || (k === 'university' && a === 'department');
+    btns.forEach(b => b.addEventListener('click', () => {
+      cards.forEach(c => { c.hidden = !ok(b.dataset.filter, c.dataset.audience); });
+      document.querySelectorAll('.section:not(.lab-life) .event-list').forEach(l => {
+        const h = l.previousElementSibling, any = [...l.children].some(c => !c.hidden);
+        l.hidden = !any; if (h && h.tagName === 'H2') h.hidden = !any;
+      });
+      btns.forEach(x => { x.classList.toggle('is-active', x === b); x.setAttribute('aria-pressed', x === b); });
+    }));
+  })();
+</script>
+{{ end }}

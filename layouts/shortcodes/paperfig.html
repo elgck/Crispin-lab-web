@@ -1,0 +1,17 @@
+{{- /*
+  Figure with caption + credit, fades in on scroll.
+  Usage in any Markdown page:
+    {{< paperfig src="/images/research/smmile-fig5.webp"
+                 alt="What the image shows"
+                 caption="Short caption."
+                 credit="Gao et al., Nature Cancer 2025"
+                 doi="10.1038/s43018-025-01060-8"
+                 wide="true" >}}
+*/ -}}
+<figure class="paper-fig{{ if .Get "wide" }} wide{{ end }}{{ if .Get "tall" }} tall{{ end }}" data-reveal>
+  <img src="{{ .Get "src" }}" alt="{{ .Get "alt" }}" loading="lazy">
+  <figcaption class="credit">
+    {{ with .Get "caption" }}<strong>{{ . | markdownify }}</strong> {{ end }}
+    {{ with .Get "credit" }}{{ if $.Get "doi" }}<a href="https://doi.org/{{ $.Get "doi" }}">{{ . }}</a> (CC BY 4.0){{ else }}{{ . }}{{ end }}{{ end }}
+  </figcaption>
+</figure>

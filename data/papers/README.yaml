@@ -1,0 +1,31 @@
+# # Papers
+#
+# One file per paper (`YEAR-short-title.yaml`). Move a file between the folders to change where it shows.
+#
+# | Folder | Shown on |
+# |---|---|
+# | `display/` | Publications page, homepage ("Recent publications" if `featured: true`, Mireia's "Key papers" if `pi_role` is set), research-theme "Selected papers", and any profile that selects it |
+# | `context/` | **Hidden** from the lab-wide lists — kept only so people's profiles can still list it (via `selected:` in their file). Theses, commentaries, old preprints, and papers where lab members are not first/last author go here. |
+#
+# Fields: `title`, `type` (article | review | commentary | conference | preprint | poster | talk | thesis),
+# `authors`, `venue`, `year`, `doi` or `url`, optional `note`, `theme`, `image` (in static/images/research/),
+# `featured`, `pi_role`. Copy any existing file as a template.
+#
+# Brand-new papers with a DOI can still just be pasted into `data/new_papers.yaml` (details are fetched from Crossref); they show as display papers.
+#
+# (This file is only comments — Hugo reads it as empty data.)
+#
+# ## Poster or talk template
+#
+# ```yaml
+# title: "Poster title"
+# authors: "A. Person, B. Person & M. Crispin-Ortuzar"
+# type: poster                      # or: talk
+# event: "CRUK Cambridge Centre Symposium"
+# location: "Cambridge, UK"
+# date: "2026-05-14"
+# year: 2026
+# pdf: "/files/posters/my-poster.pdf"     # put the PDF in static/files/posters/
+# image: "my-poster-thumb.webp"           # optional thumbnail in static/images/research/
+# theme: "Computational pathology"
+# ```

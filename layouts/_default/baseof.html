@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>{{ if .IsHome }}{{ .Site.Params.labName }} | {{ .Site.Params.labFullName }}{{ else }}{{ .Title }} | {{ .Site.Params.labName }}{{ end }}</title>
+  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/main.css?v={{ (os.Stat "static/css/main.css").ModTime.Unix }}">
+  <link rel="stylesheet" href="/css/motion.css?v={{ (os.Stat "static/css/motion.css").ModTime.Unix }}">
+  <!-- Marks JS as available so scroll animations can hide elements before revealing them.
+       Without JS everything simply shows. -->
+  <script>document.documentElement.classList.add('js')</script>
+
+  <link rel="icon" type="image/svg+xml" href="/images/logo-mark.svg">
+</head>
+<body>
+
+  <div class="scroll-progress" aria-hidden="true"></div>
+  {{- partial "nav.html" . -}}
+
+  <main>
+    {{- block "main" . }}{{- end }}
+  </main>
+
+  {{- partial "footer.html" . -}}
+  {{- partial "vacancy-popup.html" . -}}
+
+  <script>
+    // Mobile nav toggle
+    const toggle = document.querySelector('.nav-toggle');
+    const links  = document.querySelector('.nav-links');
+    if (toggle && links) {
+      toggle.addEventListener('click', () => {
+        const open = links.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open);
+      });
+      // Close the menu if the window grows past the mobile breakpoint (e.g. rotating a tablet)
+      window.matchMedia('(min-width: 961px)').addEventListener('change', (e) => {
+        if (e.matches) { links.classList.remove('open'); toggle.setAttribute('aria-expanded', false); }
+      });
+    }
+  </script>
+  <script src="/js/motion.js" defer></script>
+</body>
+</html>

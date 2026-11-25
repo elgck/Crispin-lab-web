@@ -1,0 +1,79 @@
+# ─────────────────────────────────────────────────────────────
+# EVENTS run or co-run by lab members. Shown on /events/ and (upcoming only)
+# on the homepage. Past events move to "Past events" automatically (daily rebuild).
+#
+#   title, summary            short description
+#   date:   "2026-12-10"      or "TBD" if not fixed yet
+#   dates:  [ ... ]           for a recurring series — the next upcoming date is shown
+#   time, location            free text (optional)
+#   organisers: [slugs]       lab members (file names in content/people/)
+#   organisers_label: "Led by"  optional label shown before the organisers
+#   with:   "…"               external co-organisers (optional)
+#   url / register            links (optional)
+#   tag:    seminar | workshop | club | journal club | conference | outreach
+#   audience: public | university | department | lab
+#             public     = open to everyone
+#             university = University / Biomedical Campus members
+#             department = Department of Oncology members
+#             lab        = Crispin Lab members (internal)
+#   audience_note: optional custom wording for the audience badge
+#   archive: id of a series in data/seminar_archive.yaml → adds a "Past sessions" button
+#   Regular events with no fixed dates (e.g. journal club): give `recurring:` and leave out date/dates.
+# ─────────────────────────────────────────────────────────────
+events:
+  - title: "Cambridge MedAI Seminar Series"
+    tag: "seminar"
+    audience: "public"
+    date: "2026-12-10"
+    time: "12:00–13:00 (lunch from 11:45) · also streamed on Zoom"
+    location: "Main Lecture Theatre, Jeffrey Cheah Biomedical Centre, Cambridge"
+    summary: "A lunchtime seminar series on AI in medicine for researchers, practitioners and students. Each seminar features two talks from experts in the field, followed by an interactive discussion with a light lunch."
+    organisers: ["ines-prata-machado", "hannah-clayton"]
+    with: "CRUK Cambridge Centre & Department of Radiology"
+    url: "https://www.integratedcancermedicine.org/research/cambridge-medai-seminar-series/"
+    archive: "medai"      # links to the seminar archive (data/seminar_archive.yaml)
+    register: "https://medai-dec2026.eventbrite.co.uk/"   # Eventbrite link for the next session
+
+  - title: "AI workshop & talks"
+    tag: "workshop"
+    audience: "university"
+    audience_note: "Department of Oncology, Biomedical Campus & University members"
+    date: "TBD"
+    location: ""
+    summary: "A hands-on workshop and talk series on AI methods, co-organised by members of the Crispin Lab with colleagues from across Cambridge."
+    organisers: ["emma-cook"]
+    with: "external co-organisers"
+    url: ""
+
+  - title: "Cambridge AI Club for Biomedicine"
+    tag: "club"
+    audience: "public"
+    recurring: "First Thursday of the month"
+    dates: ["2026-12-03", "2027-02-04", "2027-03-04", "2027-04-01", "2027-05-06", "2027-06-03"]
+    time: "5.15pm doors · 5.30–6.30pm talks · 6.30–7.30pm pizza & networking"
+    location: "Lecture Theatre, Jeffrey Cheah Biomedical Centre, Cambridge"
+    summary: "Brings together the biomedical AI and machine learning community in Cambridge for methods-focused talks, discussion and networking. Open to everyone, with no need to register."
+    organisers: ["ines-prata-machado"]
+    with: "Milner Therapeutics Institute, CRUK Cambridge Institute & Cambridge Stem Cell Institute"
+    url: "https://www.milner.cam.ac.uk/ai-club/"
+    archive: "aiclub"
+    register: "https://cam.us21.list-manage.com/subscribe?u=f3f0c643a035ac596206bf444&id=d59f728f5a"
+    register_label: "Join the mailing list"
+
+  # ── Inside the lab ─────────────────────────────────────────
+  # Events with audience: "lab" are shown together at the bottom of /events/
+  # under "Inside the lab".
+  - title: "Lab meeting"
+    tag: "lab meeting"
+    audience: "lab"
+    recurring: "Weekly"
+    summary: "The whole group meets every week. Members take turns presenting work in progress, from early ideas to practice talks, and get feedback from the rest of the lab."
+    organisers: []
+
+  - title: "Journal club"
+    tag: "journal club"
+    audience: "lab"
+    recurring: "Every other Tuesday afternoon"
+    summary: "We take turns presenting and discussing recent papers in AI, medical imaging, pathology and cancer research."
+    organisers: ["rebecca-wray"]
+    organisers_label: "Led by"

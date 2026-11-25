@@ -1,0 +1,13 @@
+{{- /* University of Cambridge logo — shown only if the official file exists in
+       static/images/cambridge/ (see README there). Pass "white" for dark backgrounds. */ -}}
+{{- $base := cond (eq . "white") "cambridge-logo-white" "cambridge-logo" -}}
+{{- $src := "" -}}
+{{- range slice "svg" "png" -}}
+  {{- $f := printf "/images/cambridge/%s.%s" $base . -}}
+  {{- if and (not $src) (fileExists (printf "static%s" $f)) }}{{ $src = $f }}{{ end -}}
+{{- end -}}
+{{- with $src -}}
+<a class="cam-logo cam-logo--{{ $base }}" href="https://www.cam.ac.uk/" target="_blank" rel="noopener">
+  <img src="{{ . }}" alt="University of Cambridge">
+</a>
+{{- end -}}

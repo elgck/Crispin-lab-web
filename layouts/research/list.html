@@ -1,0 +1,179 @@
+{{ define "main" }}
+{{ $themes := hugo.Data.research.themes }}
+{{ $pubs := where (partialCached "func/all-publications.html" "pubs") "context" "!=" true }}
+{{ $collab := hugo.Data.collaborators }}
+{{ $focus := hugo.Data.home.focus }}
+
+<div class="page-header" data-scroll="view">
+  {{ partial "slide-bg.html" . }}
+  <div class="container">
+    <div class="eyebrow">Research</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.lede }}<p class="lede">{{ . }}</p>{{ end }}
+  </div>
+</div>
+
+<!-- ═══ Overview ═══════════════════════════════════════════ -->
+<section class="section research-overview">
+  <div class="container">
+    <div class="prose research-intro">{{ .Content }}</div>
+    <div class="theme-index">
+      {{ range $i, $t := $themes }}
+      <a class="theme-index-card" href="#{{ $t.id }}" data-reveal style="--i: {{ $i }}">
+        <span class="step-num">{{ add $i 1 }}</span>
+        <span class="theme-index-eyebrow">{{ $t.eyebrow }}</span>
+        <span class="theme-index-title">{{ $t.title }}</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Themes ═════════════════════════════════════════════ -->
+<section class="section section--tinted story research-themes" id="themes">
+  <div class="container">
+    <nav class="story-nav-bar" aria-label="Research themes">
+      <ol class="story-nav">
+        {{ range $i, $t := $themes }}
+        <li data-goto="{{ $i }}"{{ if eq $i 0 }} class="is-active"{{ end }}>
+          <a href="#{{ $t.id }}"><span class="step-num">{{ add $i 1 }}</span><span class="story-nav-label">{{ $t.eyebrow }}</span></a>
+        </li>
+        {{ end }}
+      </ol>
+    </nav>
+
+    <div class="story-list">
+      {{ range $i, $t := $themes }}
+      <article class="story-step research-theme" data-step="{{ $i }}" id="{{ $t.id }}">
+        <figure class="step-figure" data-reveal>
+          <span class="frame-media">
+            <span class="frame-badge step-num">{{ add $i 1 }}</span>
+            <img src="/images/research/{{ $t.img }}" alt="{{ $t.alt }}" loading="lazy">
+          </span>
+          <figcaption class="credit">{{ if $t.doi }}<a href="https://doi.org/{{ $t.doi }}">{{ $t.credit }}</a> (CC BY 4.0){{ else }}{{ $t.credit }}{{ end }}</figcaption>
+        </figure>
+
+        <div class="step-body">
+          <div class="step-tag"><span class="step-num">{{ add $i 1 }}</span>{{ $t.eyebrow }}</div>
+          <h2 class="research-theme-title">{{ $t.title }}</h2>
+          {{ range $t.body }}<p>{{ . | markdownify }}</p>{{ end }}
+
+          {{ with $t.questions }}
+          <div class="theme-questions">
+            <div class="eyebrow">Questions we ask</div>
+            <ul>{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+          </div>
+          {{ end }}
+
+          {{ with $t.people }}
+          <div class="theme-people">
+            <span class="theme-people-label">Who works on this</span>
+            <ul>
+              {{ range . }}{{ with site.GetPage (printf "/people/%s" .) }}{{ if not .Params.hidden }}
+              <li><a href="{{ .RelPermalink }}">{{ partial "person-photo.html" . }}<span>{{ .Title }}</span></a></li>
+              {{ end }}{{ end }}{{ end }}
+            </ul>
+          </div>
+          {{ end }}
+        </div>
+
+        {{ range $t.figures }}
+        <figure class="step-figure research-extra-fig" data-reveal>
+          <img src="/images/research/{{ .img }}" alt="{{ .caption }}" loading="lazy">
+          <figcaption class="credit"><strong>{{ .caption }}</strong> {{ if .doi }}<a href="https://doi.org/{{ .doi }}">{{ .credit }}</a> (CC BY 4.0){{ else }}{{ .credit }}{{ end }}</figcaption>
+        </figure>
+        {{ end }}
+
+        {{/* Selected papers: entries in data/papers/display/ whose doi or url is listed under `papers` */}}
+        {{ $sel := slice }}
+        {{ range $t.papers }}{{ $k := . }}
+          {{ range $pubs }}{{ if or (eq .doi $k) (eq .url $k) }}{{ $sel = $sel | append . }}{{ end }}{{ end }}
+        {{ end }}
+        {{ with $sel }}
+        <div class="theme-papers">
+          <div class="eyebrow">Selected papers</div>
+          <ul>
+            {{ range sort . "year" "desc" }}
+            <li>
+              {{ $href := .url }}{{ with .doi }}{{ $href = printf "https://doi.org/%s" . }}{{ end }}
+              <a class="pub-title" href="{{ $href }}">{{ .title }}</a>
+              <div class="pub-authors">{{ partial "authors.html" (dict "authors" .authors "site" site) }}</div>
+              <div class="pub-journal">{{ .venue }} · {{ .year }}{{ with .note }} · {{ . }}{{ end }}</div>
+            </li>
+            {{ end }}
+          </ul>
+        </div>
+        {{ end }}
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Cancer focus ═══════════════════════════════════════ -->
+<section class="section aim">
+  <div class="container">
+    <div class="eyebrow" data-reveal>Where we focus</div>
+    <h2 class="section-title" data-reveal>Cancer types</h2>
+    <div class="focus-grid">
+      {{ range $i, $f := $focus }}
+      <article class="focus-card" data-reveal style="--i: {{ $i }}">
+        <div class="focus-img">{{ with $f.image }}<img src="{{ . }}" alt="" loading="lazy"{{ if eq $f.fit "contain" }} class="fit-contain"{{ end }}{{ with $f.position }} style="object-position: {{ . }}"{{ end }}>{{ end }}</div>
+        <div class="focus-body">
+          <div class="focus-num">{{ printf "%02d" (add $i 1) }}</div>
+          <h3>{{ $f.title }}</h3>
+          <p>{{ $f.text }}</p>
+        </div>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Collaborators ══════════════════════════════════════ -->
+{{ with $collab }}
+<section class="section section--tinted collaborators" id="collaborators">
+  <div class="container">
+    <div class="eyebrow" data-reveal>Working together</div>
+    <h2 class="section-title" data-reveal>Collaborators & networks</h2>
+    <p class="lede" data-reveal>{{ .intro }}</p>
+    <div class="collab-grid">
+      {{ range $i, $g := .groups }}
+      <div class="collab-group" data-reveal style="--i: {{ $i }}">
+        <h3>{{ $g.title }}</h3>
+        <ul>
+          {{ range $g.items }}
+          <li>
+            {{ if .url }}<a href="{{ .url }}" target="_blank" rel="noopener">{{ .name }}</a>{{ else }}<span class="collab-name">{{ .name }}</span>{{ end }}
+            {{ with .note }}<span class="collab-people">{{ . }}</span>{{ end }}
+          </li>
+          {{ end }}
+        </ul>
+      </div>
+      {{ end }}
+    </div>
+    {{ with .events }}
+    <div class="collab-events" data-reveal>
+      <div class="eyebrow">Where we present our work</div>
+      <ul>{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+<!-- ═══ Work with us ═══════════════════════════════════════ -->
+<section class="section">
+  <div class="container research-cta" data-reveal>
+    <div>
+      <div class="eyebrow">Work with us</div>
+      <h2 class="hiring-title">Interested in collaborating or joining the lab?</h2>
+      <p class="lede">We welcome clinicians, data scientists and laboratory researchers who want to turn routine clinical data into better cancer care.</p>
+    </div>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/opportunities/">Opportunities</a>
+      <a class="btn btn-outline" href="/contact/">Get in touch</a>
+    </div>
+  </div>
+</section>
+{{ end }}

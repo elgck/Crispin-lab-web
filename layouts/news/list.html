@@ -1,0 +1,36 @@
+{{ define "main" }}
+{{ $li := site.Params.linkedin }}
+{{ $widget := partial "linkedin-widget.html" . | strings.TrimSpace }}
+<div class="page-header" data-scroll="view">
+  {{ partial "slide-bg.html" . }}
+  <div class="container">
+    <div class="eyebrow">News</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.lede }}<p class="lede">{{ . }}</p>{{ end }}
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="li-bar">
+      <span class="li-mark" aria-hidden="true">in</span>
+      <div>
+        <strong>Crispin Lab on LinkedIn</strong>
+        <span class="credit">Posts and reposts from our page appear here automatically.</span>
+      </div>
+      <a class="btn btn-primary" href="{{ $li.url }}" target="_blank" rel="noopener">Follow us ↗</a>
+    </div>
+
+    {{ if $widget }}
+      <div class="li-feed">{{ $widget | safeHTML }}</div>
+    {{ else }}
+      <div class="li-empty">
+        <span class="li-mark li-mark--lg" aria-hidden="true">in</span>
+        <h2>Follow our latest news on LinkedIn</h2>
+        <p class="lede">We share new papers, talks, awards and life in the lab on our LinkedIn page.</p>
+        <a class="btn btn-primary" href="{{ $li.url }}posts/" target="_blank" rel="noopener">See our posts on LinkedIn ↗</a>
+      </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

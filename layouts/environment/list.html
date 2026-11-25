@@ -1,0 +1,23 @@
+{{ define "main" }}
+<div class="page-header" data-scroll="view">
+  {{ partial "slide-bg.html" . }}
+  <div class="container">
+    <div class="eyebrow">Environment</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.lede }}<p class="lede">{{ . }}</p>{{ end }}
+  </div>
+</div>
+
+<section class="section env">
+  <div class="container env-layout">
+    <!-- Contents: sticky sidebar in landscape, chips under the title in portrait -->
+    <nav class="env-toc" aria-label="On this page">
+      <div class="eyebrow">On this page</div>
+      {{ .TableOfContents }}
+    </nav>
+    <div class="prose env-body">
+      {{ .Content }}
+    </div>
+  </div>
+</section>
+{{ end }}

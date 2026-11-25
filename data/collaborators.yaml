@@ -1,0 +1,50 @@
+# ─────────────────────────────────────────────────────────────
+# Collaborators shown on /research/.
+# Only list organisations the lab has an ACTIVE working relationship with
+# (shared posts, programmes, funding, placements, consortia) — not simply
+# co-authors on a paper. No individual staff names.
+#   name: organisation · url: optional link · note: optional one-line description
+# ─────────────────────────────────────────────────────────────
+intro: "Our work depends on close collaboration: with the clinical teams who collect the data, with programmes that bring different disciplines together, and with partners in academia and industry."
+
+groups:
+  - title: "Cambridge"
+    items:
+      - name: "Early Cancer Institute"
+        note: "Our home institute, focused on early detection and intervention"
+        url: "https://www.earlycancer.cam.ac.uk/"
+      - name: "Department of Radiology"
+        note: "Joint research, including a co-supervised postdoctoral post in agentic AI"
+      - name: "CRUK Cambridge Centre"
+        note: "Ovarian Programme, co-led by Mireia"
+        url: "https://www.cambridgecancercentre.org.uk/"
+      - name: "Mark Foundation Institute for Integrated Cancer Medicine"
+
+  - title: "Hospital partners"
+    items:
+      - name: "Cambridge University Hospitals"
+        note: "Oncology, radiology, pathology and surgical teams"
+
+  - title: "Consortia & trials"
+    items:
+      - name: "IMPACT-OC"
+        note: "European consortium developing multi-agent AI for ovarian cancer"
+      - name: "NAXIVA trial"
+        note: "Neoadjuvant axitinib in renal cell carcinoma with venous tumour thrombus"
+
+  - title: "Industry"
+    items:
+      - name: "GE HealthCare"
+        note: "Research funding"
+      - name: "AstraZeneca"
+        note: "PhD placement"
+
+# Where we present our work
+events:
+  - "ESMO congresses"
+  - "MICCAI"
+  - "IEEE ISBI"
+  - "NeurIPS"
+  - "ICML"
+  - "CVPR"
+  - "IEEE BIBM"

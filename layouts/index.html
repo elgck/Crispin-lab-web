@@ -1,0 +1,340 @@
+{{ define "main" }}
+{{ $tiles := hugo.Data.hero_tiles }}
+{{ $pubs := where (partialCached "func/all-publications.html" "pubs") "context" "!=" true }}
+{{ $home := hugo.Data.home }}
+{{ $vac := .Site.Params.vacancy }}
+
+<!-- ═══ Hero ═══════════════════════════════════════════════════
+     Generic opening: lab name + aim. The visual cycles through three
+     data types (pathology → imaging → genomics) in sync with scroll;
+     on phones it plays automatically. Driven by static/js/motion.js. -->
+<section class="hero-track" data-scroll="pin" id="hero">
+  <div class="hero-sticky">
+    {{ partial "slide-bg.html" . }}
+    <div class="container hero">
+      <div class="hero-text">
+        <div class="hero-sup">{{ .Site.Params.labName }} · {{ .Site.Params.institute }} · {{ .Site.Params.institution }}</div>
+        <h1 class="hero-title">{{ .Site.Params.labFullName }}</h1>
+        <p class="hero-sub">{{ .Site.Params.tagline }}</p>
+        <p class="hero-body">{{ .Site.Params.description }}</p>
+        <div class="hero-actions">
+          <a href="#research" class="btn btn-primary">Explore our research</a>
+          <a href="/people/" class="btn btn-outline">Meet the team</a>
+        </div>
+        {{ partial "cambridge-logo.html" "colour" }}
+      </div>
+
+      <figure class="hero-visual" aria-label="Illustration: one modelling approach across pathology, imaging and genomics">
+        <div class="modality-stack">
+          <div class="modality mod-path" data-mod="0" data-state="active">
+            <div class="slide-frame" style="aspect-ratio: {{ $tiles.w }} / {{ $tiles.h }}">
+              <img src="/images/research/hero-slide.webp" width="{{ $tiles.w }}" height="{{ $tiles.h }}"
+                   alt="Haematoxylin and eosin stained whole-slide image of an ovarian tumour">
+              <svg class="slide-tiles" viewBox="0 0 {{ $tiles.w }} {{ $tiles.h }}" preserveAspectRatio="none" aria-hidden="true">
+                {{ $tw := div (float $tiles.w) $tiles.cols }}
+                {{ $th := div (float $tiles.h) $tiles.rows }}
+                {{ range $tiles.tiles }}
+                  {{ $c := index . 0 }}{{ $r := index . 1 }}{{ $s := index . 2 }}
+                  <rect class="tile {{ if ge $s 0.8 }}t-hi{{ else if ge $s 0.55 }}t-mid{{ else }}t-lo{{ end }}"
+                        data-y="{{ div (add (float $r) 0.5) $tiles.rows }}"
+                        x="{{ mul $c $tw }}" y="{{ mul $r $th }}" width="{{ $tw }}" height="{{ $th }}"/>
+                {{ end }}
+              </svg>
+              <div class="scan-line" aria-hidden="true"></div>
+            </div>
+            <span class="mod-label">Pathology</span>
+          </div>
+          <!-- Imaging: a CT slice is scanned and the kidneys (red) and tumour (green) are segmented (--ct 0→1).
+               KiTS23 case 00000 (public, CC BY-NC-SA 4.0). -->
+          <div class="modality mod-ct" data-mod="1" data-state="next">
+            <div class="ct-pair">
+              <img class="ct-layer" src="/images/hero/hero-ct-raw.webp" alt="Axial CT slice through the kidneys" width="1159" height="772">
+              <div class="ct-ncct">
+                <img class="ct-layer" src="/images/hero/hero-ct-seg.webp" alt="The same slice with kidneys and a kidney tumour segmented" width="1159" height="772">
+              </div>
+              <div class="ct-scan" aria-hidden="true"></div>
+              <span class="ct-tag ct-tag-cect">CT scan</span>
+              <span class="ct-tag ct-tag-ncct">Kidney &amp; tumour · <b>segmented</b></span>
+            </div>
+            <span class="mod-label">Imaging</span>
+          </div>
+          <!-- Genomics: HRD score panel highlighted (Fig. 2, Sammut, Crispin-Ortuzar et al., Nature 2022, CC BY 4.0) -->
+          <div class="modality mod-gx" data-mod="2" data-state="next2">
+            <div class="gx-fig">
+              <img src="/images/hero/hero-hrd.webp" alt="Genomic features associated with breast cancer therapy response, including HRD score" width="1113" height="747">
+              <span class="gx-box" aria-hidden="true"><span>HRD score</span></span>
+            </div>
+            <span class="mod-label">Genomics</span>
+          </div>
+        </div>
+        <ol class="hero-steps" aria-hidden="true">
+          <li data-mod="0" class="active">Pathology</li>
+          <li data-mod="1">Imaging</li>
+          <li data-mod="2">Genomics</li>
+        </ol>
+        <figcaption class="credit">
+          Pathology: Gao <em>et al.</em>, <a href="https://doi.org/10.1038/s41467-026-76372-z">Nat. Commun. 2026</a> (patch overlay illustrative) ·
+          CT: KiTS23 (CC BY-NC-SA 4.0) ·
+          HRD: Sammut, Crispin-Ortuzar <em>et al.</em>, <a href="https://doi.org/10.1038/s41586-021-04278-5">Nature 2022</a>.
+        </figcaption>
+      </figure>
+    </div>
+    <div class="scroll-cue" aria-hidden="true">Scroll</div>
+  </div>
+</section>
+
+<!-- ═══ Our aim + cancer focus ═══════════════════════════════ -->
+<section class="section aim">
+  <div class="container">
+    <div class="aim-grid">
+      <div data-reveal>
+        <div class="eyebrow">{{ $home.aim.heading }}</div>
+        <p class="aim-text">{{ $home.aim.text }}</p>
+      </div>
+    </div>
+    <div class="focus-grid">
+      {{ range $i, $f := $home.focus }}
+      <article class="focus-card" data-reveal style="--i: {{ $i }}">
+        <div class="focus-img">{{ with $f.image }}<img src="{{ . }}" alt="" loading="lazy"{{ if eq $f.fit "contain" }} class="fit-contain"{{ else }} data-parallax="0.5"{{ end }}{{ with $f.position }} style="object-position: {{ . }}"{{ end }}>{{ end }}</div>
+        <div class="focus-body">
+          <div class="focus-num">{{ printf "%02d" (add $i 1) }}</div>
+          <h3>{{ $f.title }}</h3>
+          <p>{{ $f.text }}</p>
+        </div>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Group leader spotlight ══════════════════════════════
+     Pulls Mireia's profile (content/people/, group: pi) and the papers
+     she led as first or senior author from data/papers/display/.   -->
+{{ with index (where .Site.RegularPages "Params.group" "pi") 0 }}
+{{ $pi := . }}
+<section class="section pi-spot" id="group-leader">
+  <div class="container pi-grid">
+    <div class="pi-photo" data-reveal>
+      {{ partial "person-photo.html" $pi }}
+    </div>
+    <div class="pi-text" data-reveal style="--i: 1">
+      <div class="eyebrow">Group leader</div>
+      <h2 class="section-title">Dr {{ $pi.Title }}</h2>
+      <p class="pi-role">{{ $pi.Params.role }} · {{ site.Params.department }}, {{ site.Params.institution }}</p>
+      <p class="lede">{{ $pi.Summary | plainify | htmlUnescape }}</p>
+      {{ with $pi.Params.interests }}<ul class="pi-tags">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>{{ end }}
+      <div class="hero-actions" style="margin-top:1.5rem">
+        <a class="btn btn-primary" href="{{ $pi.RelPermalink }}">Full profile</a>
+        {{ with $pi.Params.scholar }}<a class="btn btn-outline" href="{{ . }}" target="_blank" rel="noopener">Google Scholar ↗</a>{{ end }}
+      </div>
+    </div>
+    {{/* Papers marked with `pi_role` in data/papers/display/ */}}
+    {{ $led := where (where (partialCached "func/all-publications.html" "pubs") "context" "!=" true) "pi_role" "!=" nil }}
+    {{ with $led }}
+    <div class="pi-papers" data-reveal style="--i: 2">
+      <div class="eyebrow">Key papers</div>
+      <ol>
+        {{ range . }}
+        <li>
+          <a href="https://doi.org/{{ .doi }}">{{ .title }}</a>
+          <span>{{ .venue }} · {{ .year }} · <em>{{ .pi_role }}</em></span>
+        </li>
+        {{ end }}
+      </ol>
+      <a class="arrow-link" href="/publications/">All publications</a>
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+<!-- ═══ Research themes (cards) ══════════════════════════════
+     Short teasers; the full write-up lives on /research/.
+     Content: data/research.yaml → themes.                         -->
+<section class="section section--tinted" id="research">
+  <div class="container">
+    <div class="eyebrow" data-reveal>What we work on</div>
+    <h2 class="section-title" data-reveal>Research themes</h2>
+    <div class="theme-cards">
+      {{ range $i, $t := hugo.Data.research.themes }}
+      <a class="theme-card" href="/research/#{{ $t.id }}" data-reveal style="--i: {{ $i }}">
+        <div class="theme-card-img">
+          <img src="/images/research/{{ $t.thumb | default $t.img }}" alt="" loading="lazy">
+          <span class="frame-badge step-num">{{ add $i 1 }}</span>
+        </div>
+        <div class="theme-card-body">
+          <div class="step-tag">{{ $t.eyebrow }}</div>
+          <h3>{{ $t.title }}</h3>
+          <p>{{ $t.teaser }}</p>
+          {{ with $t.people }}
+          <div class="theme-card-people" aria-label="Lab members working on this">
+            {{ range . }}{{ with site.GetPage (printf "/people/%s" .) }}{{ if not .Params.hidden }}<span title="{{ .Title }}">{{ partial "person-photo.html" . }}</span>{{ end }}{{ end }}{{ end }}
+          </div>
+          {{ end }}
+          <span class="arrow-link">Read more</span>
+        </div>
+      </a>
+      {{ end }}
+    </div>
+    <p style="margin-top: 2.5rem"><a href="/research/" class="arrow-link">Full research overview, collaborators & partners</a></p>
+  </div>
+</section>
+
+<!-- ═══ Synced strips ════════════════════════════════════════ -->
+<section class="section band" data-scroll="view">
+  <div class="container">
+    <div class="eyebrow" data-reveal>Automated pathology labelling</div>
+    <h2 class="section-title" data-reveal style="margin-bottom:1.5rem">Prediction, side by side with the pathologist</h2>
+  </div>
+  <div class="band-rows">
+    <div class="band-row"><span class="band-label">SMMILe</span><img class="band-track" src="/images/research/smmile-strip.webp" alt="SMMILe spatial predictions on eight whole-slide images" loading="lazy"></div>
+    <div class="band-row"><span class="band-label">Ground truth</span><img class="band-track" src="/images/research/smmile-strip-gt.webp" alt="Pathologist ground-truth annotations for the same eight slides" loading="lazy"></div>
+  </div>
+  <div class="container">
+    <p class="credit" style="margin-top:1rem">
+      Breast, lung, renal (×2), ovarian, gastric, prostate and gastric endoscopy datasets.
+      From Fig. 5, Gao <em>et al.</em>, <a href="https://doi.org/10.1038/s43018-025-01060-8">Nature Cancer 2025</a> (CC BY 4.0).
+    </p>
+  </div>
+</section>
+
+<!-- ═══ Who we are (the human side) ══════════════════════════ -->
+{{ $team := $home.team }}
+<section class="section section--tinted who" id="who-we-are">
+  <div class="container">
+    <div class="who-grid">
+      <figure class="group-photo" data-reveal>
+        {{ if fileExists (printf "static%s" $team.group_photo) }}
+          <img src="{{ $team.group_photo }}" alt="The Crispin Lab group" loading="lazy">
+        {{ else }}
+          <div class="photo-slot photo-slot--large"><span>Group photo</span><small>Add {{ $team.group_photo }}</small></div>
+        {{ end }}
+        {{ with $team.group_caption }}<figcaption><span class="cap-title">{{ . }}</span>{{ with $team.group_detail }}<span class="cap-detail">{{ . }}</span>{{ end }}</figcaption>{{ end }}
+      </figure>
+      <div class="who-text" data-reveal style="--i: 1">
+        <div class="eyebrow">The people behind the models</div>
+        <h2 class="section-title">{{ $team.heading }}</h2>
+        <p class="lede">{{ $team.intro }}</p>
+        {{ with $team.more }}<p class="lede" style="margin-top:1rem">{{ . }}</p>{{ end }}
+        <div class="values">
+          {{ range $i, $v := $team.values }}
+          <div class="value" data-reveal style="--i: {{ add $i 2 }}">
+            <h3>{{ $v.title }}</h3>
+            {{ with $v.text }}<p>{{ . }}</p>{{ else }}<p class="placeholder-text">Add a sentence in data/home.yaml</p>{{ end }}
+          </div>
+          {{ end }}
+        </div>
+        <div class="hero-actions" style="margin-top:2rem">
+          <a href="/people/" class="btn btn-primary">Meet the team</a>
+          <a href="/opportunities/" class="btn btn-outline">Join us</a>
+          <a href="/gallery/" class="btn btn-outline">Gallery</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="life-strip">
+      {{ range $i, $l := $team.life }}
+      <figure class="life-item" data-reveal style="--i: {{ $i }}">
+        <div class="life-photo">
+        {{ if fileExists (printf "static%s" $l.photo) }}
+          <img src="{{ $l.photo }}" alt="{{ $l.caption }}{{ with $l.detail }}, {{ . }}{{ end }}" loading="lazy">
+        {{ else }}
+          <div class="photo-slot"><span>Lab life</span><small>{{ $l.photo }}</small></div>
+        {{ end }}
+        </div>
+        {{ with $l.caption }}<figcaption><span class="cap-title">{{ . }}</span>{{ with $l.detail }}<span class="cap-detail">{{ . }}</span>{{ end }}</figcaption>{{ end }}
+      </figure>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ People ═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="eyebrow" data-reveal>The team</div>
+    <h2 class="section-title" data-reveal>People</h2>
+    <div class="people-grid">
+      {{ range $i, $p := (where (where .Site.RegularPages "Section" "people") "Params.group" "ne" "alumni").ByWeight }}
+      <a class="person-card" href="{{ $p.RelPermalink }}" data-reveal style="--i: {{ $i }}">
+        {{ partial "person-photo.html" $p }}
+        <div class="person-name">{{ $p.Title }}</div>
+        <div class="person-role">{{ $p.Params.role }}</div>
+        {{ with $p.Params.status }}<div class="person-status">{{ . }}</div>{{ end }}
+      </a>
+      {{ end }}
+    </div>
+    <p style="margin-top: 2.5rem; display:flex; gap:1.5rem; flex-wrap:wrap"><a href="/people/" class="arrow-link">All lab member profiles</a></p>
+  </div>
+</section>
+
+<!-- ═══ Selected publications ════════════════════════════════ -->
+<section class="section section--tinted">
+  <div class="container">
+    <div class="eyebrow" data-reveal>Selected work</div>
+    <h2 class="section-title" data-reveal>Recent publications</h2>
+    <div class="pub-cards">
+      {{ range $i, $p := where $pubs "featured" true }}
+      <a class="pub-card" href="https://doi.org/{{ $p.doi }}" data-reveal style="--i: {{ $i }}">
+        {{ with $p.image }}<div class="pub-card-img"><img src="/images/research/{{ . }}" alt="" loading="lazy" data-parallax="0.6"></div>{{ end }}
+        <div class="pub-card-body">
+          <div class="theme-num">{{ $p.year }} · {{ $p.theme }}</div>
+          <div class="pub-title">{{ $p.title }}</div>
+          <div class="pub-journal">{{ $p.venue }}</div>
+        </div>
+      </a>
+      {{ end }}
+    </div>
+    <p style="margin-top: 2.5rem"><a href="/publications/" class="arrow-link">All publications</a></p>
+  </div>
+</section>
+
+<!-- ═══ Upcoming events (from data/events.yaml) ═══════════════ -->
+{{ with (partial "func/events-sorted.html" .).upcoming }}
+<section class="section section--tinted">
+  <div class="container">
+    <div class="eyebrow" data-reveal>Get involved</div>
+    <h2 class="section-title" data-reveal>Upcoming events</h2>
+    <div class="event-list event-list--compact">{{ range first 3 . }}{{ partial "event-card.html" . }}{{ end }}</div>
+    <p style="margin-top: 2rem"><a href="/events/" class="arrow-link">All events</a></p>
+  </div>
+</section>
+{{ end }}
+
+<!-- ═══ We're hiring (shown until the closing date) ══════════ -->
+{{ if and $vac $vac.enabled (now.Before (time.AsTime (printf "%sT23:59:59Z" $vac.closes))) }}
+<section class="section hiring" data-reveal>
+  <div class="container hiring-inner">
+    <div>
+      <div class="eyebrow">We're hiring</div>
+      <h2 class="hiring-title">{{ $vac.title }}</h2>
+      <p class="lede">{{ $vac.summary }} Closes {{ (time.AsTime $vac.closes).Format "2 January 2006" }}.</p>
+    </div>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{{ $vac.url }}" target="_blank" rel="noopener">View the position ↗</a>
+      <a class="btn btn-outline" href="mailto:{{ $vac.email }}?subject={{ printf "Enquiry: %s (%s)" $vac.title $vac.ref | urlquery }}">Email us</a>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- ═══ Funders ══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container" style="text-align:center" data-reveal>
+    <div class="eyebrow" style="display:block; margin-bottom: 0.5rem">Funders & partners</div>
+    <p class="lede" style="margin: 0 auto 2rem; text-align:center">
+      Our work is generously supported by Cancer Research UK, the Wellcome Trust, GE HealthCare and the University of Cambridge.
+    </p>
+    <!-- Add real funder logos to static/images/funders/ and swap each span for:
+         <img src="/images/funders/name.svg" alt="Funder name" class="funder-logo"> -->
+    <div class="funders-strip">
+      <span class="funder-name">CANCER RESEARCH UK</span>
+      <span class="funder-name">WELLCOME TRUST</span>
+      <span class="funder-name">UNIVERSITY OF CAMBRIDGE</span>
+      <span class="funder-name">GE HEALTHCARE</span>
+      <span class="funder-name">CRUK CAMBRIDGE CENTRE</span>
+    </div>
+  </div>
+</section>
+
+{{ end }}

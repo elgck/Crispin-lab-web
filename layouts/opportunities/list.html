@@ -1,0 +1,86 @@
+{{ define "main" }}
+{{/* Opportunities page. Text lives in the front matter of content/opportunities/_index.md;
+     the vacancy card comes from [params.vacancy] in hugo.toml. */}}
+<div class="page-header" data-scroll="view">
+  {{ partial "slide-bg.html" . }}
+  <div class="container">
+    <div class="eyebrow">Join us</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.lede }}<p class="lede">{{ . }}</p>{{ end }}
+  </div>
+</div>
+
+{{ $v := site.Params.vacancy }}
+{{ $today := now.Format "2006-01-02" }}
+{{ if and $v $v.enabled (ge $v.closes $today) }}
+<section class="section opp-vacancy-wrap" id="current-vacancy">
+  <div class="container">
+    <article class="opp-vacancy" data-reveal>
+      <div class="opp-vacancy-tag">Open position</div>
+      <h2><a href="{{ $v.url }}" target="_blank" rel="noopener">{{ $v.title }}</a></h2>
+      <p class="opp-vacancy-summary">{{ $v.summary }}</p>
+      <dl class="opp-vacancy-meta">
+        <div><dt>Closes</dt><dd>{{ (time.AsTime $v.closes).Format "2 January 2006" }}</dd></div>
+        {{ with $v.ref }}<div><dt>Reference</dt><dd>{{ . }}</dd></div>{{ end }}
+      </dl>
+      {{ with .Params.vacancy_note }}<p class="opp-vacancy-note">{{ . | markdownify }}</p>{{ end }}
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="{{ $v.url }}" target="_blank" rel="noopener">View the advert ↗</a>
+        {{ with $v.email }}<a class="btn btn-outline" href="mailto:{{ . }}">Ask a question</a>{{ end }}
+      </div>
+    </article>
+  </div>
+</section>
+{{ end }}
+
+<section class="section">
+  <div class="container">
+    <div class="eyebrow" data-reveal>Ways to join</div>
+    <h2 class="section-title" data-reveal>Routes into the lab</h2>
+    <div class="opp-routes">
+      {{ range $i, $r := .Params.routes }}
+      <article class="opp-route" data-reveal style="--i: {{ $i }}">
+        <div class="opp-route-num">{{ printf "%02d" (add $i 1) }}</div>
+        <h3>{{ $r.title }}</h3>
+        <p>{{ $r.text | markdownify }}</p>
+        {{ with $r.how }}<p class="opp-route-how">{{ . }}</p>{{ end }}
+        {{ with $r.link }}<a class="arrow-link" href="{{ . }}"{{ if not (hasPrefix . "mailto:") }} target="_blank" rel="noopener"{{ end }}>{{ $r.link_label | default "Find out more" }}</a>{{ end }}
+      </article>
+      {{ end }}
+    </div>
+
+    {{ with .Params.fellowships }}
+    <div class="opp-fellowships" data-reveal>
+      <h3>Fellowships we support</h3>
+      <p>We are happy to support strong candidates applying for independent funding to join the lab.</p>
+      <ul>{{ range . }}<li><a href="{{ .url }}" target="_blank" rel="noopener">{{ .name }}</a></li>{{ end }}</ul>
+    </div>
+    {{ end }}
+  </div>
+</section>
+
+<section class="section section--tinted">
+  <div class="container opp-look">
+    <div data-reveal>
+      <div class="eyebrow">What we look for</div>
+      <h2 class="section-title">Curiosity over credentials</h2>
+      {{ with .Params.look_for }}<p class="lede">{{ . }}</p>{{ end }}
+    </div>
+    {{ with .Params.skills }}
+    <ul class="opp-skills" data-reveal style="--i: 1">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+    {{ end }}
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="opp-cta" data-reveal>
+      <div>
+        <h2>Interested in working with us?</h2>
+        <p>Send a CV and a short note about your interests. Have a look at our <a href="/research/">research</a> and <a href="/events/#inside-the-lab">how we work together</a> first.</p>
+      </div>
+      <a class="btn btn-primary" href="mailto:{{ site.Params.email }}">Email {{ site.Params.email }}</a>
+    </div>
+  </div>
+</section>
+{{ end }}

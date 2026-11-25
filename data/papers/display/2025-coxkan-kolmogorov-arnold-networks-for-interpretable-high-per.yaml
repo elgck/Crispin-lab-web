@@ -1,0 +1,9 @@
+title: "CoxKAN: Kolmogorov–Arnold networks for interpretable, high-performance survival analysis"
+type: article
+authors: "W. Knottenbelt, W. McGough, R. Wray, W. Z. Zhang, J. Liu, I. P. Machado, Z. Gao & M. Crispin-Ortuzar"
+venue: "Bioinformatics 41(8), btaf413"
+year: 2025
+doi: "10.1093/bioinformatics/btaf413"
+image: "coxkan-pipeline.webp"
+theme: "Interpretable survival models"
+featured: true

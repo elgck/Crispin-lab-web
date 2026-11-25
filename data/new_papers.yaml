@@ -1,0 +1,22 @@
+# ─────────────────────────────────────────────────────────────
+# NEW LAB PAPERS — paste a DOI (or link) for each new paper here.
+#
+# For papers with a DOI, the title, authors, journal and year are fetched
+# automatically from Crossref every time the site is built (daily), so a DOI
+# is all you need. Without a DOI, fill in title/authors/venue/year yourself.
+#
+#   doi:       10.xxxx/xxxxx            (copy from the paper's page)
+#   profiles:  people whose profile should show it (file names in content/people/)
+#   type:      article (default) | review | conference | preprint | poster | talk | thesis
+#   featured:  true  → also show on the homepage "Recent publications" cards
+#
+# Example without a DOI (e.g. a conference poster):
+# - title: "Poster title"
+#   authors: "A. Person & M. Crispin-Ortuzar"
+#   type: poster
+#   venue: "Symposium name, Cambridge"
+#   year: 2026
+#   url: "/files/posters/my-poster.pdf"
+#   profiles: ["emma-cook"]
+# ─────────────────────────────────────────────────────────────
+papers: []   # moved to data/papers/display/ — paste new DOIs here as "- doi: ..." entries

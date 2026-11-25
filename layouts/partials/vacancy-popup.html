@@ -1,0 +1,18 @@
+{{- /* Job advert pop-up. Configure in hugo.toml → [params.vacancy].
+       Hidden automatically after the closing date (checked at build time and in the browser).
+       Stays on screen across pages until the visitor clicks × (remembered on their device). */ -}}
+{{- $v := .Site.Params.vacancy -}}
+{{- if and $v $v.enabled (now.Before (time.AsTime (printf "%sT23:59:59Z" $v.closes))) -}}
+<aside class="vacancy" id="vacancy" role="complementary" aria-label="Job opening" aria-live="polite"
+       data-ref="{{ $v.ref }}" data-closes="{{ $v.closes }}" hidden>
+  <button class="vacancy-close" type="button" aria-label="Dismiss job advert">×</button>
+  <div class="vacancy-tag"><span class="vacancy-dot" aria-hidden="true"></span>We're hiring</div>
+  <p class="vacancy-title">{{ $v.title }}</p>
+  <p class="vacancy-meta">2-year postdoc · Closes {{ (time.AsTime $v.closes).Format "2 Jan 2006" }}</p>
+  <div class="vacancy-actions">
+    <a class="btn btn-primary" href="/opportunities/#current-vacancy">Find out more</a>
+    <a class="btn btn-outline" href="mailto:{{ $v.email }}?subject={{ printf "Enquiry: %s (%s)" $v.title $v.ref | urlquery }}">Email us</a>
+  </div>
+</aside>
+<script src="/js/vacancy.js" defer></script>
+{{- end -}}

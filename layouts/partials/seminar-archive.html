@@ -1,0 +1,39 @@
+{{- /* Seminar archive from data/seminar_archive.yaml: per series, upcoming programme + past sessions grouped by year.
+       Talks with `person:` are highlighted and linked to the profile (unless the profile is hidden). */ -}}
+{{- $today := now.Format "2006-01-02" -}}
+{{- with hugo.Data.seminar_archive -}}
+<h2 class="people-group-head" id="archive" style="margin-top:3.5rem">Seminar archive</h2>
+<div class="sem-archive">
+{{- range .series }}
+  {{- $s := . -}}
+  {{- $up := slice -}}{{- $past := slice -}}
+  {{- range $s.sessions -}}
+    {{- $key := .date | default (printf "%s-01" .month) -}}
+    {{- $item := merge . (dict "key" $key) -}}
+    {{- if ge $key $today }}{{ $up = $up | append $item }}{{ else }}{{ $past = $past | append $item }}{{ end -}}
+  {{- end }}
+  <section class="sem-series" id="archive-{{ $s.id }}">
+    <h3>{{ with $s.url }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $s.name }} ↗</a>{{ else }}{{ $s.name }}{{ end }}</h3>
+    {{ with $s.about }}<p class="sem-about">{{ . }}</p>{{ end }}
+
+    {{ with $up }}
+    <details class="sem-year" open>
+      <summary>Coming up <span>{{ len . }} session{{ if ne (len .) 1 }}s{{ end }}</span></summary>
+      <ol class="sem-list">{{ range sort . "key" "asc" }}{{ partial "seminar-session.html" . }}{{ end }}</ol>
+    </details>
+    {{ end }}
+
+    {{ $years := slice }}{{ range $past }}{{ $years = $years | append (substr .key 0 4) }}{{ end }}
+    {{ range $i, $y := sort (uniq $years) "value" "desc" }}
+      {{ $inYear := slice }}{{ range $past }}{{ if eq (substr .key 0 4) $y }}{{ $inYear = $inYear | append . }}{{ end }}{{ end }}
+    <details class="sem-year"{{ if and (eq $i 0) (not $up) }} open{{ end }}>
+      <summary>{{ $y }} <span>{{ len $inYear }} session{{ if ne (len $inYear) 1 }}s{{ end }}</span></summary>
+      <ol class="sem-list">{{ range sort $inYear "key" "desc" }}{{ partial "seminar-session.html" . }}{{ end }}</ol>
+    </details>
+    {{ end }}
+
+    {{ with $s.note }}<p class="sem-note">{{ . }}</p>{{ end }}
+  </section>
+{{- end }}
+</div>
+{{- end -}}

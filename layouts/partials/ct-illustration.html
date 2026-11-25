@@ -1,0 +1,34 @@
+<!-- Stylised axial abdominal CT slice with a detection box on the left kidney.
+     Original illustration (not patient data). -->
+<svg class="ct-illustration" viewBox="0 0 400 300" role="img" aria-label="Stylised CT slice showing a small kidney lesion flagged by a detection box">
+  <defs>
+    <radialGradient id="ct-body" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#7d8696"/><stop offset="100%" stop-color="#4b5363"/>
+    </radialGradient>
+    <linearGradient id="ct-sweep" x1="0" x2="1">
+      <stop offset="0%" stop-color="#FF968D" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#FF968D" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#FF968D" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="ct-clip"><ellipse cx="200" cy="150" rx="165" ry="115"/></clipPath>
+  </defs>
+  <rect width="400" height="300" rx="10" fill="#10141c"/>
+  <ellipse cx="200" cy="150" rx="165" ry="115" fill="url(#ct-body)"/>
+  <ellipse cx="200" cy="150" rx="150" ry="100" fill="none" stroke="#9aa3b2" stroke-opacity=".25" stroke-width="10"/>
+  <!-- liver / bowel hints -->
+  <path d="M95 105 q40 -40 95 -20 q-10 35 -60 45 q-30 5 -35 -25z" fill="#8a93a3" opacity=".7"/>
+  <circle cx="250" cy="105" r="22" fill="#5a6272"/><circle cx="285" cy="130" r="14" fill="#5a6272"/>
+  <!-- spine + aorta -->
+  <circle cx="200" cy="215" r="24" fill="#e8ecf2"/><circle cx="200" cy="215" r="13" fill="#9aa3b2"/>
+  <circle cx="222" cy="182" r="9" fill="#b9c0cc"/>
+  <!-- kidneys -->
+  <path d="M120 175 q-18 -35 8 -55 q28 -12 36 18 q-14 10 -6 30 q-8 22 -38 7z" fill="#a9b1be"/>
+  <path d="M280 175 q18 -35 -8 -55 q-28 -12 -36 18 q14 10 6 30 q8 22 38 7z" fill="#a9b1be"/>
+  <circle cx="132" cy="141" r="8" fill="#c9cfd8" stroke="#FF644E" stroke-width="1.5"/>
+  <!-- detection box -->
+  <rect class="ct-box" x="116" y="125" width="32" height="32" rx="2" fill="none" stroke="#FF644E" stroke-width="2.5"/>
+  <text x="116" y="119" font-family="Figtree, sans-serif" font-size="10" font-weight="600" fill="#FF644E">lesion 0.91</text>
+  <!-- sweeping scan band -->
+  <g clip-path="url(#ct-clip)"><rect class="ct-sweep" x="-60" y="30" width="60" height="240" fill="url(#ct-sweep)"/></g>
+  <text x="388" y="290" text-anchor="end" font-family="Figtree, sans-serif" font-size="9" fill="#8892a4" letter-spacing="1">ILLUSTRATION</text>
+</svg>

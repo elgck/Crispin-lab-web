@@ -1,0 +1,42 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+        <img src="/images/logo-white.svg" alt="{{ .Site.Params.labName }}, Computational Cancer Research" class="footer-logo" width="200" height="66" loading="lazy">
+        <p>{{ .Site.Params.labFullName }}<br>
+           {{ .Site.Params.department }},<br>
+           {{ .Site.Params.institution }}</p>
+        <p style="margin-top:0.75rem">
+          <a href="mailto:{{ .Site.Params.email }}" style="color:rgba(255,255,255,0.65)">
+            {{ .Site.Params.email }}
+          </a>
+        </p>
+        {{ partial "cambridge-logo.html" "white" }}
+      </div>
+
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          {{ range .Site.Menus.main }}
+          <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+          {{ end }}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Elsewhere</h4>
+        <a href="https://scholar.google.com/citations?hl=en&user=TRZzLJgAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
+        <a href="https://github.com/crispinlab" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="https://www.linkedin.com/company/crispin-lab/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://www.earlycancer.cam.ac.uk/" target="_blank" rel="noopener">Early Cancer Institute ↗</a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {{ now.Format "2006" }} {{ .Site.Params.labName }} · {{ .Site.Params.institution }}</span>
+      <span>Supported by Cancer Research UK · Wellcome Trust · University of Cambridge</span>
+    </div>
+  </div>
+</footer>
