@@ -35,6 +35,10 @@ relativeURLs = true
 
 [menu]
   [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = -1
+  [[menu.main]]
     name = "Research"
     url = "/research/"
     weight = 1

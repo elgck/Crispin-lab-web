@@ -45,6 +45,11 @@
     <div class="story-list">
       {{ range $i, $t := $themes }}
       <article class="story-step research-theme" data-step="{{ $i }}" id="{{ $t.id }}">
+        <header class="theme-head">
+          <div class="step-tag"><span class="step-num">{{ add $i 1 }}</span>{{ $t.eyebrow }}</div>
+          <h2 class="research-theme-title">{{ $t.title }}</h2>
+        </header>
+        <div class="theme-main">
         <figure class="step-figure" data-reveal>
           <span class="frame-media">
             <span class="frame-badge step-num">{{ add $i 1 }}</span>
@@ -54,8 +59,6 @@
         </figure>
 
         <div class="step-body">
-          <div class="step-tag"><span class="step-num">{{ add $i 1 }}</span>{{ $t.eyebrow }}</div>
-          <h2 class="research-theme-title">{{ $t.title }}</h2>
           {{ range $t.body }}<p>{{ . | markdownify }}</p>{{ end }}
 
           {{ with $t.questions }}
@@ -76,12 +79,17 @@
           </div>
           {{ end }}
         </div>
+        </div>
 
-        {{ range $t.figures }}
+        {{ with $t.figures }}
+        <div class="theme-figs">
+        {{ range . }}
         <figure class="step-figure research-extra-fig" data-reveal>
           <img src="/images/research/{{ .img }}" alt="{{ .caption }}" loading="lazy">
           <figcaption class="credit"><strong>{{ .caption }}</strong> {{ if .doi }}<a href="https://doi.org/{{ .doi }}">{{ .credit }}</a> (CC BY 4.0){{ else }}{{ .credit }}{{ end }}</figcaption>
         </figure>
+        {{ end }}
+        </div>
         {{ end }}
 
         {{/* Selected papers: entries in data/papers/display/ whose doi or url is listed under `papers` */}}
@@ -115,18 +123,7 @@
   <div class="container">
     <div class="eyebrow" data-reveal>Where we focus</div>
     <h2 class="section-title" data-reveal>Cancer types</h2>
-    <div class="focus-grid">
-      {{ range $i, $f := $focus }}
-      <article class="focus-card" data-reveal style="--i: {{ $i }}">
-        <div class="focus-img">{{ with $f.image }}<img src="{{ . }}" alt="" loading="lazy"{{ if eq $f.fit "contain" }} class="fit-contain"{{ end }}{{ with $f.position }} style="object-position: {{ . }}"{{ end }}>{{ end }}</div>
-        <div class="focus-body">
-          <div class="focus-num">{{ printf "%02d" (add $i 1) }}</div>
-          <h3>{{ $f.title }}</h3>
-          <p>{{ $f.text }}</p>
-        </div>
-      </article>
-      {{ end }}
-    </div>
+    {{ partial "focus-cards.html" (dict "focus" $focus "parallax" false) }}
   </div>
 </section>
 

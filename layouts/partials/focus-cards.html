@@ -1,0 +1,65 @@
+{{- /* Cancer focus cards (data/home.yaml → focus). Each card is a button that opens a
+       pop-up listing the related research themes (its `themes:` ids → data/research.yaml).
+       Usage: {{ partial "focus-cards.html" (dict "focus" $home.focus "parallax" true) }} */ -}}
+{{- $themes := hugo.Data.research.themes -}}
+{{- $parallax := .parallax -}}
+<div class="focus-grid">
+  {{ range $i, $f := .focus }}
+  <button type="button" class="focus-card" data-reveal style="--i: {{ $i }}" data-focus-open="focus-dialog-{{ $i }}" aria-haspopup="dialog">
+    <span class="focus-img">{{ with $f.image }}<img src="{{ . }}" alt="" loading="lazy"{{ if eq $f.fit "contain" }} class="fit-contain"{{ else if $parallax }} data-parallax="0.5"{{ end }}{{ with $f.position }} style="object-position: {{ . }}"{{ end }}>{{ end }}</span>
+    <span class="focus-body">
+      <span class="focus-num">{{ printf "%02d" (add $i 1) }}</span>
+      <span class="focus-title">{{ $f.title }}</span>
+      <span class="focus-text">{{ $f.text }}</span>
+      {{ with $f.themes }}<span class="focus-more">Related research <span aria-hidden="true">→</span></span>{{ end }}
+    </span>
+  </button>
+
+  <dialog class="focus-dialog" id="focus-dialog-{{ $i }}" aria-labelledby="focus-dialog-{{ $i }}-title">
+    <div class="focus-dialog-inner">
+      <button type="button" class="focus-dialog-close" aria-label="Close" data-focus-close>×</button>
+      <div class="eyebrow">{{ printf "%02d" (add $i 1) }} · Cancer focus</div>
+      <h2 id="focus-dialog-{{ $i }}-title">{{ $f.title }}</h2>
+      <p class="focus-dialog-text">{{ $f.text }}</p>
+      {{ with $f.themes }}
+      <div class="eyebrow focus-dialog-sub">Related research themes</div>
+      <ul class="focus-dialog-themes">
+        {{ range . }}{{ $id := . }}
+          {{ range $n, $t := $themes }}{{ if eq $t.id $id }}
+          <li>
+            <a href="/research/#{{ $t.id }}">
+              <span class="step-num">{{ add $n 1 }}</span>
+              <span>
+                <span class="fd-eyebrow">{{ $t.eyebrow }}</span>
+                <span class="fd-title">{{ $t.title }}</span>
+                <span class="fd-teaser">{{ $t.teaser }}</span>
+              </span>
+            </a>
+          </li>
+          {{ end }}{{ end }}
+        {{ end }}
+      </ul>
+      {{ end }}
+    </div>
+  </dialog>
+  {{ end }}
+</div>
+<script>
+  // Open/close the cancer-focus pop-ups (native <dialog>; Esc also closes).
+  (() => {
+    if (window.__focusDialogs) return; window.__focusDialogs = true;
+    document.addEventListener('click', (e) => {
+      const open = e.target.closest('[data-focus-open]');
+      if (open) {
+        const d = document.getElementById(open.dataset.focusOpen);
+        if (d && d.showModal) { d.showModal(); } else if (d) { d.setAttribute('open', ''); }
+        return;
+      }
+      const d = e.target.closest('dialog.focus-dialog');
+      if (e.target.closest('[data-focus-close]') || (d && e.target === d)) { d.close ? d.close() : d.removeAttribute('open'); }
+      // follow a theme link: close the dialog first so the page can scroll
+      const link = e.target.closest('.focus-dialog-themes a');
+      if (link && d && d.close) d.close();
+    });
+  })();
+</script>

@@ -8,19 +8,24 @@ aim:
   heading: "Our aim"
   text: "We develop computational models that use the data collected in routine cancer care to answer clinical questions. Our methods include machine learning, medical image analysis, computational pathology and multi-omic integration, and we work closely with clinical collaborators so that our research addresses questions that matter to patients."
 
-# Cancer focus areas (numbered cards under "Our aim")
+# Cancer focus areas (numbered cards under "Our aim"). Clicking a card opens a pop-up
+# linking to the research themes listed under `themes:`.
 focus:
   - title: "Urological cancers"
+    themes: ["imaging", "response", "pathology"]   # research themes shown in this card's pop-up (ids from data/research.yaml)
     text: "Kidney and bladder cancer: detecting tumours on routine non-contrast CT, grading pathology and predicting response to treatment."
     image: "/images/research/ct-kidney-coronal.webp"
   - title: "Gynaecological cancers"
+    themes: ["radiogenomics", "multiomics", "agentic", "imaging"]   # research themes shown in this card's pop-up (ids from data/research.yaml)
     text: "Ovarian and other gynaecological cancers: radiogenomic models of chemotherapy response, image-guided biopsies and HRD prediction from pathology."
     image: "/images/research/focus-gynae.webp"
   - title: "Breast cancer"
+    themes: ["multiomics", "pathology"]   # research themes shown in this card's pop-up (ids from data/research.yaml)
     text: "Multi-omic machine learning that predicts response to neoadjuvant therapy, and models that read HRD and tumour biology from routine slides and scans."
     image: "/images/research/focus-breast.png"   # crop of Fig. 1, Sammut et al., Nature 2022
     fit: "contain"
   - title: "Pan-cancer"
+    themes: ["pathology", "agentic", "imaging"]   # research themes shown in this card's pop-up (ids from data/research.yaml)
     text: "Methods that work across cancer types, from early detection of oesophageal cancer to automated pathology labelling and foundation models."
     image: "/images/research/ct-axial-strip.webp"
 

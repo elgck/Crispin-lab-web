@@ -95,18 +95,7 @@
         <p class="aim-text">{{ $home.aim.text }}</p>
       </div>
     </div>
-    <div class="focus-grid">
-      {{ range $i, $f := $home.focus }}
-      <article class="focus-card" data-reveal style="--i: {{ $i }}">
-        <div class="focus-img">{{ with $f.image }}<img src="{{ . }}" alt="" loading="lazy"{{ if eq $f.fit "contain" }} class="fit-contain"{{ else }} data-parallax="0.5"{{ end }}{{ with $f.position }} style="object-position: {{ . }}"{{ end }}>{{ end }}</div>
-        <div class="focus-body">
-          <div class="focus-num">{{ printf "%02d" (add $i 1) }}</div>
-          <h3>{{ $f.title }}</h3>
-          <p>{{ $f.text }}</p>
-        </div>
-      </article>
-      {{ end }}
-    </div>
+    {{ partial "focus-cards.html" (dict "focus" $home.focus "parallax" true) }}
   </div>
 </section>
 

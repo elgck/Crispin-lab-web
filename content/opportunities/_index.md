@@ -18,7 +18,7 @@ routes:
     link: "https://www.jobs.cam.ac.uk/"
     link_label: "University jobs board"
   - title: "Research assistants & interns"
-    text: "We occasionally recruit research assistants and undergraduate interns. If you are interested, get in touch with a CV and a few lines about what you would like to work on."
+    text: "We occasionally recruit research assistants, and host internships for undergraduate and master's students, for example summer research projects. If you are interested, get in touch with a CV and a few lines about what you would like to work on."
     link: "mailto:mc973@cam.ac.uk"
     link_label: "Get in touch"
 
