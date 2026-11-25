@@ -1,0 +1,78 @@
+/* ─────────────────────────────────────────────────────────────
+   Dark mode — follows the visitor's system setting
+   (macOS/iOS/Windows/Android "dark appearance").
+   Loaded after main.css and motion.css so it can override them.
+
+   Most colours switch automatically through the tokens below.
+   Paper figures, slides and the genomics illustration keep their white
+   backgrounds on purpose: they are images designed on white.
+   ───────────────────────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --brand:      #FF6A55;
+    --brand-soft: #B8574C;
+    --accent:     #FF8470;      /* coral for links and highlights on dark */
+    --accent-dk:  #FFA08F;      /* hover */
+    --accent-lt:  #3A211D;
+
+    --ink:        #ECECEF;
+    --ink-soft:   #C6C6CC;
+    --ink-muted:  #9C9CA4;
+    --surface:    #141416;
+    --surface-2:  #1C1B1E;
+    --surface-3:  #262428;
+    --rule:       #36333A;
+
+    --btn-bg:     #C9432E;      /* buttons keep white text readable */
+    --btn-bg-dk:  #E0533C;
+    --deep:       #0B0B0D;      /* footer & dark banners */
+  }
+
+  /* ── Navigation ─────────────────────────────────────── */
+  .site-nav { background: rgba(20, 20, 22, 0.9); }
+  .nav-logo picture img { filter: none; }
+
+  /* ── Buttons, filters, active states (white text on coral) ── */
+  .btn-primary,
+  .pub-filter.is-active,
+  .hero-steps li.active,
+  .opp-vacancy-tag { background: var(--btn-bg); border-color: var(--btn-bg); color: #fff; }
+  .btn-primary:hover { background: var(--btn-bg-dk); border-color: var(--btn-bg-dk); }
+
+  /* ── Footer and dark banners used --ink as a background ── */
+  .site-footer,
+  .opp-cta { background: var(--deep); }
+  .opp-cta { border: 1px solid var(--rule); }
+
+  /* ── Tinted panels ──────────────────────────────────── */
+  .hiring,
+  .research-cta { background: linear-gradient(120deg, #2A1A18, #22171A); }
+  .pi-spot { background: linear-gradient(180deg, var(--surface) 0%, #1F1717 100%); }
+  .pi-photo img, .pi-photo .person-photo { box-shadow: 0 0 0 8px var(--surface), 0 0 0 9px var(--brand-soft), 0 30px 60px -30px rgba(0,0,0,.6); }
+  .todo-box { background: var(--surface-2); }
+  .hero-steps li { background: rgba(28, 27, 30, .85); }
+  .story-nav a, .story-nav li { background: var(--surface-2); }
+
+  /* Labels sitting on top of images */
+  .frame-badge { background: rgba(20, 20, 22, .88); color: var(--ink); }
+
+  /* ── Coloured labels (publication types, event audiences) ── */
+  .pub-type--conference,
+  .event-aud--university, .event-aud--department { background: #1F2540; color: #A9B6EE; }
+  .pub-type--poster, .pub-type--talk { background: #3A2E12; color: #F1C873; }
+  .pub-type--thesis,
+  .event-aud--public { background: #17301D; color: #8FD39E; }
+  .pub-type--book { background: #2A2240; color: #C3B2F1; }
+
+  /* ── Background pathology slides: softer on dark ────── */
+  .slide-bg { opacity: .35; }
+
+  /* ── Figures keep their white backgrounds; add a subtle frame ── */
+  .paper-fig img, .pub-row img, .pub-card-img, .theme-card-img,
+  .focus-img img.fit-contain, .story-inline img { box-shadow: 0 0 0 1px var(--rule); }
+
+  /* Shadows are invisible on dark, so lean on borders instead */
+  .news-card:hover, .focus-card:hover, .theme-card:hover { box-shadow: 0 0 0 1px var(--brand-soft); }
+}

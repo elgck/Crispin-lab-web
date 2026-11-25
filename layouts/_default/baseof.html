@@ -2,6 +2,7 @@
 <html lang="en-GB">
 <head>
   <meta charset="UTF-8">
+  <meta name="color-scheme" content="light dark">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>{{ if .IsHome }}{{ .Site.Params.labName }} | {{ .Site.Params.labFullName }}{{ else }}{{ .Title }} | {{ .Site.Params.labName }}{{ end }}</title>
@@ -14,6 +15,7 @@
 
   <link rel="stylesheet" href="/css/main.css?v={{ (os.Stat "static/css/main.css").ModTime.Unix }}">
   <link rel="stylesheet" href="/css/motion.css?v={{ (os.Stat "static/css/motion.css").ModTime.Unix }}">
+  <link rel="stylesheet" href="/css/dark.css?v={{ (os.Stat "static/css/dark.css").ModTime.Unix }}">
   <!-- Marks JS as available so scroll animations can hide elements before revealing them.
        Without JS everything simply shows. -->
   <script>document.documentElement.classList.add('js')</script>

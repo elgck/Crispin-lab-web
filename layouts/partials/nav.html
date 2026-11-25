@@ -1,7 +1,10 @@
 <nav class="site-nav" role="navigation" aria-label="Main navigation">
   <div class="container nav-inner">
     <a href="/" class="nav-logo" aria-label="{{ .Site.Params.labName }} home">
-      <img src="/images/logo.svg" alt="{{ .Site.Params.labName }}, Computational Cancer Research" class="nav-logo-img" width="176" height="60">
+      <picture>
+        <source srcset="/images/logo-white.svg" media="(prefers-color-scheme: dark)">
+        <img src="/images/logo.svg" alt="{{ .Site.Params.labName }}, Computational Cancer Research" class="nav-logo-img" width="176" height="60">
+      </picture>
     </a>
 
     <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
