@@ -39,14 +39,15 @@ team:
   more: ""            # optional second paragraph, e.g. how you work, what you enjoy
   group_photo: "/images/lab/group.jpg"
   group_caption: "The Crispin Lab"
-  group_detail: "Early Cancer Institute, Cambridge"
+  group_detail: "Lab away day, November 2026"
+  # Lab values, agreed together at our 2026 away day. title: the value as a short sentence · text: what it means in practice
   values:
-    - title: "Interdisciplinary"
-      text: "Using our diverse backgrounds to tackle problems from multiple angles."
-    - title: "Clinically grounded"
-      text: "Working closely with clinicians to ensure our research addresses real-world medical challenges."
-    - title: "Open & collaborative"
-      text: "Sharing our knowledge and resources to advance the field of computational oncology."
+    - title: "We are transparent and trustworthy"
+      text: "In our research and in how we communicate it: open about our methods, honest about our results and clear with collaborators, clinicians and patients."
+    - title: "We are a supportive community"
+      text: "We look out for each other and foster collaboration, both within the lab and with colleagues beyond it."
+    - title: "We answer questions that matter"
+      text: "We use innovative techniques to tackle the questions that make a real difference to patients and clinical care."
   # Lab-life photos — drop files into static/images/lab/ with these names
   # caption: short title (bold) · detail: optional second line (place, year)
   life:

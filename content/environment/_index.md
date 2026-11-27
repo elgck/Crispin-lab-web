@@ -47,7 +47,11 @@ The Cambridge Biomedical Campus is a short bus or cycle ride from Cambridge city
 
 ### Our values
 
-{{< todo "Describe the values the lab has agreed on — e.g. interdisciplinary, clinically grounded, open & collaborative — with a sentence on what each means in practice" >}}
+We agreed these values together at our 2026 lab away day:
+
+- **We are transparent and trustworthy**, in both our research and our communication.
+- **We are a supportive community**, fostering collaboration within the lab and beyond it.
+- **We use innovative techniques to answer questions that matter.**
 
 ### One-to-ones & mentoring
 
