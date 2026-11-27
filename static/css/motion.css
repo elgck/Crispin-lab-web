@@ -1216,3 +1216,19 @@ button.focus-card:hover .focus-more span { margin-left: .2rem; }
 .aim-text.is-in mark ~ mark { transition-delay: 1.2s; }
 html:not(.js) .aim-text mark { background-size: 100% 100%; }
 @media (prefers-reduced-motion: reduce) { .aim-text mark { transition: none; background-size: 100% 100%; } }
+
+/* ═════════════════════════════════════════════════════════════
+   News posts
+   ═════════════════════════════════════════════════════════════ */
+.news-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr)); gap: 1.5rem; }
+.news-card { display: grid; grid-template-rows: auto 1fr; border: 1px solid var(--rule); border-radius: 14px; overflow: hidden; background: var(--surface); color: inherit; transition: transform .2s, box-shadow .2s; }
+.news-card:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -28px rgba(28,28,30,.5); }
+.news-card img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.news-card-body { padding: 1.1rem 1.25rem 1.3rem; display: grid; gap: .45rem; align-content: start; }
+.news-card-body h3 { font-size: clamp(1.1rem, 1rem + .4vw, 1.35rem); }
+.news-card-body p { color: var(--ink-soft); font-size: var(--fs-small); line-height: 1.6; }
+.news-date { font-size: var(--fs-small); color: var(--ink-muted); font-weight: 600; }
+.photo-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr)); gap: 1rem; margin: 1.5rem 0 2rem; }
+.photo-row .photo { margin: 0; }
+.news-post { max-width: 72ch; }
+.news-back { margin-top: 2.5rem; }

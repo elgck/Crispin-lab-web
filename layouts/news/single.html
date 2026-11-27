@@ -1,0 +1,19 @@
+{{ define "main" }}
+<div class="page-header" data-scroll="view">
+  {{ partial "slide-bg.html" . }}
+  <div class="container">
+    <div class="eyebrow"><a href="/news/">News</a>{{ with .Date }} · {{ .Format "January 2006" }}{{ end }}</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.lede }}<p class="lede">{{ . }}</p>{{ end }}
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <article class="prose news-post">
+      {{ .Content }}
+      <p class="news-back"><a href="/news/" class="arrow-link">All news</a></p>
+    </article>
+  </div>
+</section>
+{{ end }}
