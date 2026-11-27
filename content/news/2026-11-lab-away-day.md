@@ -1,7 +1,7 @@
 ---
 title: "Lab away day 2026"
 date: 2026-11-26
-lede: "Jenga, the future of our field, a new set of lab values and a table full of Christmas wreaths."
+lede: "Jenga, the future of our lab, a new set of collective values and a table full of Christmas wreaths."
 summary: "A day of workshops on where the lab is heading and what matters to us, finished off with an Indian takeaway and a wreath-making workshop."
 image: "/images/gallery/g47.jpg"
 ---
@@ -14,11 +14,11 @@ This November we left our desks for our annual lab away day: a chance to welcome
 
 We started with an icebreaker run by [Emma](/people/emma-cook/) and [Ollie](/people/ollie-jansen/): a game of Jenga with a question written on every block. Each block pulled out meant answering its question, from *"What is your favourite quote?"* to *"If you won the lottery, what would you do?"*. It was a fun way for new and longer-standing lab members to get to know each other, and the tower held out longer than anyone expected.
 
-{{< photo src="/images/gallery/g27.jpg" caption="Icebreaker Jenga with questions" >}}
+{{< photo src="/images/gallery/g27.jpg" caption="Icebreaker Jenga with questions - Mireia knocked over the tower!" >}}
 
 {{< photo-row >}}
-{{< photo src="/images/gallery/g29.jpg" caption="Steady hands" ratio="3 / 4" >}}
-{{< photo src="/images/gallery/g30.jpg" caption="Concentration" ratio="3 / 4" >}}
+{{< photo src="/images/gallery/g29.jpg" caption="Zeyu protecting the tower from collapse!" ratio="3 / 4" >}}
+{{< photo src="/images/gallery/g30.jpg" caption="Inês carefully choosing her piece" ratio="3 / 4" >}}
 {{< /photo-row >}}
 
 ## The future of the Crispin Lab
@@ -33,28 +33,28 @@ Next, [Hannah](/people/hannah-clayton/) and [Rebecca](/people/rebecca-wray/) led
 
 From this discussion we agreed three values for the lab:
 
-- **We are transparent and trustworthy**, in both our research and our communication.
-- **We are a supportive community**, fostering collaboration within the lab and beyond it.
+- **We are transparent and trustworthy, in both our research and our communication.**
+- **We are a supportive community, fostering collaboration within the lab and beyond it.**
 - **We use innovative techniques to answer questions that matter.**
 
 {{< photo src="/images/gallery/g34.jpg" caption="Hania leading our lab values workshop" >}}
 
 ## Curry and wreaths
 
-With the hard work done, we shared an Indian takeaway before a short walk (or drive!) to a wreath-making workshop. There we each designed and built our own Christmas wreath from real foliage, including fir, eucalyptus, berries, pine cones and dried oranges. It was a lovely, social and creative way to end the day.
+With the hard work done, we shared an Indian takeaway before a short walk (or drive!) to a wreath-making workshop. There we each designed and built our own Christmas wreath from real foliage, including fir, eucalyptus, berries, pine cones, dried oranges and more! It was a lovely, social and creative way to end the day.
 
 {{< photo src="/images/gallery/g35.jpg" caption="Indian takeaway together after the workshops" >}}
 
 {{< photo src="/images/gallery/g43.jpg" caption="Wreath making in full swing" >}}
 
 {{< photo-row >}}
-{{< photo src="/images/gallery/g37.jpg" caption="Choosing berries for our wreaths" ratio="3 / 4" >}}
-{{< photo src="/images/gallery/g39.jpg" caption="Wreath making" ratio="3 / 4" >}}
+{{< photo src="/images/gallery/g37.jpg" caption="Choosing berries and leaves for our wreaths" ratio="3 / 4" >}}
+{{< photo src="/images/gallery/g39.jpg" caption="Rebecca wreath making" ratio="3 / 4" >}}
 {{< /photo-row >}}
 
 {{< photo-row >}}
-{{< photo src="/images/gallery/g48.jpg" caption="Three finished wreaths" ratio="3 / 4" >}}
-{{< photo src="/images/gallery/g46.jpg" caption="A finished wreath" ratio="3 / 4" >}}
+{{< photo src="/images/gallery/g48.jpg" caption="Rebecca, Hania and Hannah with their finished wreaths" ratio="3 / 4" >}}
+{{< photo src="/images/gallery/g46.jpg" caption="Shangqi and his finished wreath" ratio="3 / 4" >}}
 {{< /photo-row >}}
 
-Thank you to everyone who organised and led a session. More photos from the day are in our [gallery](/gallery/).
+More photos from the day are in our [gallery](/gallery/).
