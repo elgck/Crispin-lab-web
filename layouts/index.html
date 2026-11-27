@@ -99,6 +99,57 @@
   </div>
 </section>
 
+<!-- ═══ Who we are (the human side) ══════════════════════════ -->
+{{ $team := $home.team }}
+<section class="section section--tinted who" id="who-we-are">
+  <div class="container">
+    <div class="who-grid">
+      <figure class="group-photo" data-reveal>
+        {{ if fileExists (printf "static%s" $team.group_photo) }}
+          <img src="{{ $team.group_photo }}" alt="The Crispin Lab group" loading="lazy">
+        {{ else }}
+          <div class="photo-slot photo-slot--large"><span>Group photo</span><small>Add {{ $team.group_photo }}</small></div>
+        {{ end }}
+        {{ with $team.group_caption }}<figcaption><span class="cap-title">{{ . }}</span>{{ with $team.group_detail }}<span class="cap-detail">{{ . }}</span>{{ end }}</figcaption>{{ end }}
+      </figure>
+      <div class="who-text" data-reveal style="--i: 1">
+        <div class="eyebrow">The people behind the models</div>
+        <h2 class="section-title">{{ $team.heading }}</h2>
+        <p class="lede">{{ $team.intro }}</p>
+        {{ with $team.more }}<p class="lede" style="margin-top:1rem">{{ . }}</p>{{ end }}
+        <div class="values">
+          {{ range $i, $v := $team.values }}
+          <div class="value" data-reveal style="--i: {{ add $i 2 }}">
+            <h3>{{ $v.title }}</h3>
+            {{ with $v.text }}<p>{{ . }}</p>{{ else }}<p class="placeholder-text">Add a sentence in data/home.yaml</p>{{ end }}
+          </div>
+          {{ end }}
+        </div>
+        <div class="hero-actions" style="margin-top:2rem">
+          <a href="/people/" class="btn btn-primary">Meet the team</a>
+          <a href="/opportunities/" class="btn btn-outline">Join us</a>
+          <a href="/gallery/" class="btn btn-outline">Gallery</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="life-strip">
+      {{ range $i, $l := $team.life }}
+      <figure class="life-item" data-reveal style="--i: {{ $i }}">
+        <div class="life-photo">
+        {{ if fileExists (printf "static%s" $l.photo) }}
+          <img src="{{ $l.photo }}" alt="{{ $l.caption }}{{ with $l.detail }}, {{ . }}{{ end }}" loading="lazy">
+        {{ else }}
+          <div class="photo-slot"><span>Lab life</span><small>{{ $l.photo }}</small></div>
+        {{ end }}
+        </div>
+        {{ with $l.caption }}<figcaption><span class="cap-title">{{ . }}</span>{{ with $l.detail }}<span class="cap-detail">{{ . }}</span>{{ end }}</figcaption>{{ end }}
+      </figure>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
 <!-- ═══ Group leader spotlight ══════════════════════════════
      Pulls Mireia's profile (content/people/, group: pi) and the papers
      she led as first or senior author from data/papers/display/.   -->
@@ -169,57 +220,6 @@
       {{ end }}
     </div>
     <p style="margin-top: 2.5rem"><a href="/research/" class="arrow-link">Full research overview, collaborators & partners</a></p>
-  </div>
-</section>
-
-<!-- ═══ Who we are (the human side) ══════════════════════════ -->
-{{ $team := $home.team }}
-<section class="section section--tinted who" id="who-we-are">
-  <div class="container">
-    <div class="who-grid">
-      <figure class="group-photo" data-reveal>
-        {{ if fileExists (printf "static%s" $team.group_photo) }}
-          <img src="{{ $team.group_photo }}" alt="The Crispin Lab group" loading="lazy">
-        {{ else }}
-          <div class="photo-slot photo-slot--large"><span>Group photo</span><small>Add {{ $team.group_photo }}</small></div>
-        {{ end }}
-        {{ with $team.group_caption }}<figcaption><span class="cap-title">{{ . }}</span>{{ with $team.group_detail }}<span class="cap-detail">{{ . }}</span>{{ end }}</figcaption>{{ end }}
-      </figure>
-      <div class="who-text" data-reveal style="--i: 1">
-        <div class="eyebrow">The people behind the models</div>
-        <h2 class="section-title">{{ $team.heading }}</h2>
-        <p class="lede">{{ $team.intro }}</p>
-        {{ with $team.more }}<p class="lede" style="margin-top:1rem">{{ . }}</p>{{ end }}
-        <div class="values">
-          {{ range $i, $v := $team.values }}
-          <div class="value" data-reveal style="--i: {{ add $i 2 }}">
-            <h3>{{ $v.title }}</h3>
-            {{ with $v.text }}<p>{{ . }}</p>{{ else }}<p class="placeholder-text">Add a sentence in data/home.yaml</p>{{ end }}
-          </div>
-          {{ end }}
-        </div>
-        <div class="hero-actions" style="margin-top:2rem">
-          <a href="/people/" class="btn btn-primary">Meet the team</a>
-          <a href="/opportunities/" class="btn btn-outline">Join us</a>
-          <a href="/gallery/" class="btn btn-outline">Gallery</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="life-strip">
-      {{ range $i, $l := $team.life }}
-      <figure class="life-item" data-reveal style="--i: {{ $i }}">
-        <div class="life-photo">
-        {{ if fileExists (printf "static%s" $l.photo) }}
-          <img src="{{ $l.photo }}" alt="{{ $l.caption }}{{ with $l.detail }}, {{ . }}{{ end }}" loading="lazy">
-        {{ else }}
-          <div class="photo-slot"><span>Lab life</span><small>{{ $l.photo }}</small></div>
-        {{ end }}
-        </div>
-        {{ with $l.caption }}<figcaption><span class="cap-title">{{ . }}</span>{{ with $l.detail }}<span class="cap-detail">{{ . }}</span>{{ end }}</figcaption>{{ end }}
-      </figure>
-      {{ end }}
-    </div>
   </div>
 </section>
 
